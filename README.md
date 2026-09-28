@@ -2,7 +2,7 @@
 
 Kimi Code CLI skills for building production-ready Spring Boot / Java backends — and turning the work into long-form written content.
 
-This repo ports the engineering-focused skills from `your-javaguy-skills` and re-brands them for Kimi Code CLI. The scope is the code-and-ship loop: scaffolding, DevOps, testing, and observability — plus the article skill that drafts in your voice.
+This repo ports the engineering-focused skills from `your-javaguy-skills` and re-brands them for Kimi Code CLI. The scope is the code-and-ship loop: scaffolding, persistence, caching, messaging, DevOps, testing, and observability — plus AI engineering with Spring AI, and the article skill that drafts in your voice.
 
 ---
 
@@ -15,11 +15,15 @@ This repo ports the engineering-focused skills from `your-javaguy-skills` and re
 | `spring-testing` | Write and repair tests — Testcontainers 2.x setup, integration vs unit routing, and the Boot 4 test API (`@MockitoBean`, `MockMvcTester`, `RestTestClient`). |
 | `otel-setup` | Wire OpenTelemetry end to end — OTLP export, the Logback appender Boot does not ship, a local Grafana LGTM backend, and a runbook that proves all three signals land. |
 | `spring-data-jpa` | Add JPA persistence — entities, repositories, auditing, Flyway migrations, and integration tests. |
+| `redis-setup` | Add Redis caching and rate limiting — Jackson 3 JSON serialization, per-cache TTLs, graceful cache failure, Bucket4j rate limiting, and a test that proves the cache intercepts calls. |
 | `spring-security` | Add JWT resource-server security — config, claim mapping, method security, and tests. |
 | `api-design` | Add OpenAPI/SpringDoc docs, API versioning, and consistent `ProblemDetail` error schemas. |
 | `kafka-setup` | Add Kafka producers/consumers — Spring Kafka config, JSON events, DLT handling, and Testcontainers tests. |
 | `rabbitmq-setup` | Add RabbitMQ producers/consumers — Spring AMQP config, JSON events, DLX handling, and Testcontainers tests. |
 | `security-hardening` | Add DevSecOps hardening — OWASP dependency check, secrets scanning, container scanning, and SBOM. |
+| `spring-ai-rag` | Add a RAG pipeline with Spring AI — PgVector with Flyway-owned DDL and HNSW index, Tika ingestion with token-aware chunking, a retrieval advisor with a similarity floor, and an end-to-end proof that answers are grounded in ingested documents. |
+| `mcp-server` | Expose a Spring Boot service as an MCP server — streamable HTTP transport, use-case-shaped `@McpTool` tools with description/validation/error discipline, honest read-only/destructive hints, endpoint security, and verification with a real MCP client. |
+| `legacy-migration` | Migrate Spring Boot 2.x/3.x apps to Boot 4.x — audit-first, OpenRewrite-led, one green build per hop (2.7 → 3.5 Jakarta jump → 4.0 Jackson 3 + modular starters → 4.1), with a symptom table for the changes that compile but break at runtime. |
 
 ### Content
 
@@ -159,6 +163,10 @@ You rarely invoke a skill by name; just describe the outcome you want.
     │   ├── SKILL.md
     │   └── references/
     │       └── jpa-conventions.md
+    ├── redis-setup/
+    │   ├── SKILL.md
+    │   └── references/
+    │       └── redis-conventions.md
     ├── spring-security/
     │   ├── SKILL.md
     │   └── references/
@@ -179,6 +187,18 @@ You rarely invoke a skill by name; just describe the outcome you want.
     │   ├── SKILL.md
     │   └── references/
     │       └── hardening-checklist.md
+    ├── spring-ai-rag/
+    │   ├── SKILL.md
+    │   └── references/
+    │       └── rag-reference.md
+    ├── mcp-server/
+    │   ├── SKILL.md
+    │   └── references/
+    │       └── mcp-reference.md
+    ├── legacy-migration/
+    │   ├── SKILL.md
+    │   └── references/
+    │       └── migration-reference.md
     └── article/
         ├── SKILL.md
         └── references/
