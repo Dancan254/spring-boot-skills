@@ -1,4 +1,4 @@
-# Kimi Development Skills — Agent Notes
+# Kimi Spring Boot Skills — Agent Notes
 
 ## What this repo is
 

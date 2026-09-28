@@ -1,6 +1,6 @@
 ---
 name: spring-scaffold
-description: "Scaffold a new Spring Boot 4 project following Kimi Development Skills conventions — correct package structure, pom.xml with modern dependencies, global exception handler, ProblemDetail config, Testcontainers base class, Dockerfile, GitHub Actions CI, a pre-filled project AGENTS.md, and a portfolio-facing README.md. Use when asked to create, scaffold, bootstrap, or start a new Spring Boot project."
+description: "Scaffold a new Spring Boot 4 project following Kimi Spring Boot Skills conventions — correct package structure, pom.xml with modern dependencies, global exception handler, ProblemDetail config, Testcontainers base class, Dockerfile, GitHub Actions CI, a pre-filled project AGENTS.md, and a portfolio-facing README.md. Use when asked to create, scaffold, bootstrap, or start a new Spring Boot project."
 ---
 
 # Spring Boot Scaffold Skill

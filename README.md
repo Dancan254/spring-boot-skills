@@ -1,4 +1,4 @@
-# Kimi Development Skills
+# Kimi Spring Boot Skills
 
 Kimi Code CLI skills for building production-ready Spring Boot / Java backends — and turning the work into long-form written content.
 
@@ -52,9 +52,9 @@ Install this repo as a plugin from a local path or from GitHub, then reload. The
 commands inside Kimi Code CLI, not shell commands:
 
 ```text
-/plugins install /path/to/development-skills
+/plugins install /path/to/spring-boot-skills
 # or, from GitHub:
-/plugins install https://github.com/Dancan254/development-skills
+/plugins install https://github.com/Dancan254/spring-boot-skills
 ```
 
 After installation completes, run `/reload` or start a new session (`/new`). The plugin manifest in
@@ -66,8 +66,8 @@ automatically.
 Clone the repo, then expose the `skills/` directory to Kimi Code CLI's project-level scanner:
 
 ```bash
-git clone https://github.com/Dancan254/development-skills.git
-cd development-skills
+git clone https://github.com/Dancan254/spring-boot-skills.git
+cd spring-boot-skills
 mkdir -p .kimi-code
 ln -s "$PWD/skills" .kimi-code/skills
 ```
@@ -81,7 +81,7 @@ Make the skills available from any directory by placing each skill folder direct
 skills directory:
 
 ```bash
-cd /path/to/development-skills
+cd /path/to/spring-boot-skills
 mkdir -p ~/.kimi-code/skills
 for d in skills/*/; do
   ln -s "$PWD/$d" ~/.kimi-code/skills/"$(basename "$d")"
@@ -91,7 +91,7 @@ done
 Or copy instead of symlink:
 
 ```bash
-cp -r /path/to/development-skills/skills/* ~/.kimi-code/skills/
+cp -r /path/to/spring-boot-skills/skills/* ~/.kimi-code/skills/
 ```
 
 You can use `~/.agents/skills/` instead of `~/.kimi-code/skills/` if you prefer. Restart or reload
