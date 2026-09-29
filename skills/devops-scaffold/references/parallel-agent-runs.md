@@ -1,6 +1,6 @@
 # Parallel & Long-Running Agent Runs
 
-Reference notes for running one or many Kimi Code CLI agents against a Spring Boot project without
+Reference notes for running one or many coding agents against a Spring Boot project without
 them stepping on each other or on your working tree. Not generated into a project — this is workflow
 guidance you (or a meta-skill) reach for when a job is big enough to run in the background or fan out
 across branches.
@@ -32,7 +32,7 @@ For Spring projects the win is concrete: warm `.m2` + preserved `target/` turns 
 
 ## Guardrails for a long autonomous run
 
-When you point Kimi Code CLI at a big objective and walk away, bound it so it can't run away.
+When you point a coding agent at a big objective and walk away, bound it so it can't run away.
 Borrowed from overnight-orchestrator practice:
 
 - **Token budget.** Cap total spend so a stuck loop can't burn the account (`--max-tokens`-style hard
