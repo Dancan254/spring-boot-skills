@@ -166,8 +166,9 @@ and proceeds: a cache miss is a slow request, a cache error must not be a 500.
 ## Testing
 
 - Container: `com.redis.testcontainers.RedisContainer` from `com.redis:testcontainers-redis` — not
-  in Boot's BOM, pin the version. A plain `GenericContainer("redis:...")` also works; the typed
-  container just adds convenience.
+  in Boot's BOM, pin the version. A plain `GenericContainer("redis:...")` also works, but
+  `@ServiceConnection` matches it only by image name, so a mirrored image breaks it; `RedisContainer`
+  is matched by type.
 - Evict or clear caches between tests (`cacheManager.getCache(...).clear()` in `@BeforeEach`) when
   test data overlaps — cached state leaking between tests produces flakes that look like
   serialization bugs.

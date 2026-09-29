@@ -91,7 +91,7 @@ that is a bug to fix on sight.
 | Service | Image | Container class | `@ServiceConnection` |
 |---|---|---|---|
 | PostgreSQL | `postgres:18-alpine` | `org.testcontainers.postgresql.PostgreSQLContainer` | automatic |
-| Redis | `redis:8.10.2-alpine` | `org.testcontainers.containers.GenericContainer` (no Redis module exists) | matched by image name; add `name = "redis"` if pulled from a mirror |
+| Redis | `redis:8.10.2-alpine` | `com.redis.testcontainers.RedisContainer` (`com.redis:testcontainers-redis`) | automatic, matched by type |
 | Kafka | `apache/kafka:4.3.1` | `org.testcontainers.kafka.KafkaContainer` | automatic |
 | RabbitMQ | `rabbitmq:4-management-alpine` | `org.testcontainers.rabbitmq.RabbitMQContainer` | automatic |
 | MongoDB | `mongo:8.3.11` | `org.testcontainers.mongodb.MongoDBContainer` | automatic |
@@ -118,14 +118,26 @@ static PostgreSQLContainer postgres =
     new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
 ```
 
-**Redis** — there is no Redis module in Testcontainers 2.x; a `GenericContainer` is the supported
-path and Boot matches it on image name:
+**Redis** — Testcontainers 2.x has no official Redis module; use Redis's own
+`com.redis:testcontainers-redis` (not in Boot's BOM, so pin it). Boot's
+`RedisContainerConnectionDetailsFactory` accepts `RedisContainer` by type, so `@ServiceConnection`
+works even when the image comes from a mirror — a `GenericContainer` only matches on the image name.
+This is the same container `redis-setup` uses.
+
+```xml
+<dependency>
+    <groupId>com.redis</groupId>
+    <artifactId>testcontainers-redis</artifactId>
+    <version>2.2.4</version>
+    <scope>test</scope>
+</dependency>
+```
 
 ```java
 @Container
 @ServiceConnection
-static GenericContainer redis =
-    new GenericContainer(DockerImageName.parse("redis:8.10.2-alpine")).withExposedPorts(6379);
+static RedisContainer redis =
+    new RedisContainer(DockerImageName.parse("redis:8.10.2-alpine"));
 ```
 
 **Kafka** — `KafkaContainer` is the KRaft `apache/kafka` image; `ConfluentKafkaContainer` is the

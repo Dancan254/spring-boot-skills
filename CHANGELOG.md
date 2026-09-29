@@ -14,6 +14,8 @@ All notable changes to this skill pack. Versions match the `version` field in ev
   2.16.1, with `@ServiceConnection` for Spring Cloud AWS) instead of LocalStack, which now needs an auth
   token on every run.
 - `mongo` pinned to `8.3.11`; it floated on `mongo:8`.
+- `spring-testing` uses `com.redis.testcontainers.RedisContainer` for Redis, matching `redis-setup`,
+  instead of a `GenericContainer` that `@ServiceConnection` only matched by image name.
 
 ### Fixed
 - `security-hardening` referenced `aquasecurity/trivy-action@0.36.0`, a tag that does not exist; it is
