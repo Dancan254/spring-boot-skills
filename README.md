@@ -107,6 +107,7 @@ name.
 ├── AGENTS.md              # Contributor notes (CLAUDE.md imports it)
 ├── CHANGELOG.md
 ├── VERSIONS.md            # Every pin, checked by scripts/lint-skills.py
+├── evals/                 # Routing suite for `claude plugin eval`
 ├── scripts/
 │   └── lint-skills.py
 ├── README.md
@@ -182,6 +183,25 @@ Every pin — Spring Boot, BOM-managed versions, container images, GitHub Action
 
 Do not override `testcontainers.version` or `opentelemetry.version` by hand — the Spring Boot BOM owns
 them. If a newer release exists, that is a Boot upgrade, not a property change.
+
+---
+
+## Evals
+
+`evals/` holds a routing suite for `claude plugin eval`: one case per skill checking that a natural
+request fires the right skill (and not its neighbour where two overlap), one case checking that a
+request naming no broker gets asked "Kafka or RabbitMQ?", and three negative cases where no skill may
+fire. Graders are `tool_used` and `regex` only, so no judge model is involved.
+
+```bash
+claude plugin eval . --ablation none --no-publish            # full suite, ~3 runs per case
+claude plugin eval . --case add-kafka-consumer --runs 1 --ablation none   # one case, once
+```
+
+Every run is a real model call on your account (about $0.05–0.10 per run). Cases cap at 3 turns, so
+`Reached maximum number of turns (3)` in the notes is expected — routing is decided on the first
+turn. `--ablation none` is deliberate: skill-fired graders aren't scored in the no-plugin arm, so the
+baseline adds cost without signal for a routing suite.
 
 ---
 

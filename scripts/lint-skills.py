@@ -168,6 +168,19 @@ def check_pins():
             fail(f"pin '{name}' not found in any skill — stale row in VERSIONS.md or broken pattern")
 
 
+def check_evals():
+    evals = ROOT / "evals"
+    positive = set()
+    for grader in evals.glob("*/graders/*.md"):
+        text = grader.read_text()
+        match = re.search(r"input_match: '.*\)\?([\w-]+)\\?\"'", text)
+        if match and "max: 0" not in text:
+            positive.add(match.group(1))
+    for skill in skill_dirs():
+        if skill.name not in positive:
+            fail(f"{skill.relative_to(ROOT)}: no eval case under evals/ expects this skill to fire")
+
+
 def check_manifests():
     loaded = {}
     for manifest in MANIFESTS:
@@ -186,6 +199,7 @@ def check_manifests():
 check_skills()
 check_tool_neutral()
 check_pins()
+check_evals()
 check_manifests()
 
 for message in errors:
