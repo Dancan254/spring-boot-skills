@@ -10,6 +10,11 @@ All notable changes to this skill pack. Versions match the `version` field in ev
 - The skill lint also checks each image's Docker Hub verification command and the "confirm `<tag>`"
   line before it.
 
+- `spring-testing` emulates AWS with Floci (`floci/floci:2.1.0`, `io.floci:*testcontainers-floci`
+  2.16.1, with `@ServiceConnection` for Spring Cloud AWS) instead of LocalStack, which now needs an auth
+  token on every run.
+- `mongo` pinned to `8.3.11`; it floated on `mongo:8`.
+
 ### Fixed
 - `security-hardening` referenced `aquasecurity/trivy-action@0.36.0`, a tag that does not exist; it is
   `v0.36.0`.

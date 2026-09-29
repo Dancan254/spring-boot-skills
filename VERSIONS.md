@@ -22,6 +22,7 @@ or intermediate migration hops. They are not alternatives to the pin.
 | dependency-check-maven | 13.0.0 | | security-hardening |
 | cyclonedx-maven-plugin | 2.9.3 | | security-hardening |
 | rewrite-maven-plugin | 6.46.1 | | legacy-migration |
+| testcontainers-floci | 2.16.1 | | spring-testing |
 | image postgres | 18-alpine | | spring-testing |
 | image pgvector/pgvector | 0.8.6-pg18 | | spring-ai-rag |
 | image grafana/otel-lgtm | 0.34.0 | | otel-setup |
@@ -29,7 +30,8 @@ or intermediate migration hops. They are not alternatives to the pin.
 | image rabbitmq | 4-management-alpine | | rabbitmq-setup |
 | image redis | 8.10.2-alpine | | redis-setup |
 | image ollama/ollama | 0.35.0 | | spring-ai-rag |
-| image localstack/localstack | 4 | | spring-testing |
+| image floci/floci | 2.1.0 | | spring-testing |
+| image mongo | 8.3.11 | | spring-testing |
 | action actions/checkout | v7 | | devops-scaffold |
 | action actions/setup-java | v6 | | devops-scaffold |
 | action actions/upload-artifact | v7 | | devops-scaffold |

@@ -94,15 +94,16 @@ that is a bug to fix on sight.
 | Redis | `redis:8.10.2-alpine` | `org.testcontainers.containers.GenericContainer` (no Redis module exists) | matched by image name; add `name = "redis"` if pulled from a mirror |
 | Kafka | `apache/kafka:4.3.1` | `org.testcontainers.kafka.KafkaContainer` | automatic |
 | RabbitMQ | `rabbitmq:4-management-alpine` | `org.testcontainers.rabbitmq.RabbitMQContainer` | automatic |
-| MongoDB | `mongo:8` | `org.testcontainers.mongodb.MongoDBContainer` | automatic |
-| LocalStack (S3, SQS…) | `localstack/localstack:4` | `org.testcontainers.localstack.LocalStackContainer` | automatic |
+| MongoDB | `mongo:8.3.11` | `org.testcontainers.mongodb.MongoDBContainer` | automatic |
+| AWS via Floci (S3, SQS, DynamoDB…) | `floci/floci:2.1.0` | `io.floci.testcontainers.FlociContainer` | automatic for Spring Cloud AWS clients, via `spring-boot-testcontainers-floci` |
 | Grafana LGTM | `grafana/otel-lgtm:0.34.0` | `org.testcontainers.grafana.LgtmStackContainer` | automatic (metrics + traces + logs) |
 
 Boot 4.1 ships the matching connection-details factories in the feature module, not in
 `spring-boot-testcontainers` — `spring-boot-data-redis` carries `RedisContainerConnectionDetailsFactory`,
 `spring-boot-kafka` carries `ApacheKafkaContainerConnectionDetailsFactory` (plus a Confluent one), and
-`spring-boot-amqp` carries `RabbitContainerConnectionDetailsFactory`. If `@ServiceConnection` does
-nothing, the feature starter is missing, not the container.
+`spring-boot-amqp` carries `RabbitContainerConnectionDetailsFactory`. Floci's factory is third-party and
+lives in `io.floci:spring-boot-testcontainers-floci`. If `@ServiceConnection` does nothing, the feature
+starter (or that module) is missing, not the container.
 
 ---
 
@@ -137,17 +138,50 @@ static KafkaContainer kafka =
     new KafkaContainer(DockerImageName.parse("apache/kafka:4.3.1"));
 ```
 
-**LocalStack** — one container per service set, and the client is built from its endpoint:
+**AWS (S3, SQS, SNS, DynamoDB…)** — use Floci, not LocalStack. LocalStack retired its Community image
+in March 2026 and now needs an auth token on every run; Floci is MIT-licensed, token-free, and serves
+the same port (4566) with one container for every service. Two test-scoped dependencies, neither in
+Boot's BOM, so pin both to the same release:
+
+```xml
+<dependency>
+    <groupId>io.floci</groupId>
+    <artifactId>testcontainers-floci</artifactId>
+    <version>2.16.1</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>io.floci</groupId>
+    <artifactId>spring-boot-testcontainers-floci</artifactId>
+    <version>2.16.1</version>
+    <scope>test</scope>
+</dependency>
+```
 
 ```java
 @Container
-static LocalStackContainer localstack =
-    new LocalStackContainer(DockerImageName.parse("localstack/localstack:4"))
-        .withServices(LocalStackContainer.Service.S3);
+@ServiceConnection
+static FlociContainer floci =
+    new FlociContainer(DockerImageName.parse("floci/floci:2.1.0"));
 ```
 
-There is no `@ServiceConnection` for AWS clients — register the endpoint with
-`@DynamicPropertySource` and point the SDK client at `localstack.getEndpoint()`.
+`@ServiceConnection` sets endpoint, region, and credentials on Spring Cloud AWS clients (`S3Client`,
+`SqsAsyncClient`, …). Never use the no-arg constructor — it silently pulls the `latest` tag. If the
+project builds raw AWS SDK clients instead of Spring Cloud AWS, drop the Spring module and point the
+client at `floci.getEndpoint()` / `getRegion()` / `getAccessKey()` / `getSecretKey()` with
+`forcePathStyle(true)` for S3.
+
+Keep LocalStack only when a project already depends on it or needs emulation Floci stubs (Textract,
+Transcribe); its auth token then goes in a CI secret, never in the repo.
+
+Verify both pins before writing:
+
+```bash
+curl -s "https://hub.docker.com/v2/repositories/floci/floci/tags?page_size=50&ordering=last_updated" \
+  | python3 -c "import json,sys,re; print([t['name'] for t in json.load(sys.stdin)['results'] if re.fullmatch(r'[\d.]+', t['name'])][:3])"
+curl -s "https://repo1.maven.org/maven2/io/floci/spring-boot-testcontainers-floci/maven-metadata.xml" \
+  | grep -oE '<release>[^<]+'
+```
 
 **Grafana LGTM** belongs in `TestcontainersConfiguration` for `./mvnw spring-boot:test-run`, never
 in `BaseIntegrationTest` — integration tests assert behaviour, not telemetry, and the image is ~1 GB.
