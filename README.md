@@ -110,6 +110,8 @@ name.
 └── skills/
     ├── spring-scaffold/
     │   ├── SKILL.md
+    │   ├── assets/
+    │   │   └── templates/     # Java, YAML, and doc templates the scaffold copies
     │   └── references/
     │       └── pagination.md
     ├── devops-scaffold/
