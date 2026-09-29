@@ -1,11 +1,24 @@
 {
   "name": "spring-boot-skills",
   "displayName": "Spring Boot Skills",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Spring Boot 4 skills: scaffold, JPA, Redis, Kafka/RabbitMQ, security, DevOps, testing, OTel, Spring AI RAG, MCP servers, and legacy migration.",
-  "author": { "name": "Dancan254" },
+  "author": {
+    "name": "Dancan254"
+  },
   "homepage": "https://github.com/Dancan254/spring-boot-skills",
   "repository": "https://github.com/Dancan254/spring-boot-skills",
   "license": "MIT",
-  "keywords": ["spring-boot", "java", "spring-ai", "testcontainers", "opentelemetry", "kafka", "rabbitmq", "redis", "docker", "github-actions"]
+  "keywords": [
+    "spring-boot",
+    "java",
+    "spring-ai",
+    "testcontainers",
+    "opentelemetry",
+    "kafka",
+    "rabbitmq",
+    "redis",
+    "docker",
+    "github-actions"
+  ]
 }

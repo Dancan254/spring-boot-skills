@@ -106,6 +106,9 @@ name.
 ├── plugin.json            # Portable Agent Plugins manifest (Codex)
 ├── AGENTS.md              # Contributor notes (CLAUDE.md imports it)
 ├── CHANGELOG.md
+├── VERSIONS.md            # Every pin, checked by scripts/lint-skills.py
+├── scripts/
+│   └── lint-skills.py
 ├── README.md
 └── skills/
     ├── spring-scaffold/
@@ -173,9 +176,12 @@ name.
 
 ## Version policy
 
-Skills are pinned to **Spring Boot 4.1.1** by default. Other pins (Temurin JDK, PostgreSQL, Grafana LGTM, Testcontainers, GitHub Actions) are current as of the last sweep. Each skill includes the exact `curl` command to re-verify a pin before writing it, so the scaffold never ships a stale default.
+Every pin — Spring Boot, BOM-managed versions, container images, GitHub Actions — lives in
+[`VERSIONS.md`](VERSIONS.md). Each skill carries the command to re-verify its pins before writing, and
+`python3 scripts/lint-skills.py` (run in CI) fails when any skill disagrees with `VERSIONS.md`.
 
-Do not override `testcontainers.version` or `opentelemetry.version` by hand — the Spring Boot BOM owns them. If a newer release exists, that is a Boot upgrade, not a property change.
+Do not override `testcontainers.version` or `opentelemetry.version` by hand — the Spring Boot BOM owns
+them. If a newer release exists, that is a Boot upgrade, not a property change.
 
 ---
 
