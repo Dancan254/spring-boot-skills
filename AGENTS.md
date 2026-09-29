@@ -2,25 +2,18 @@
 
 ## What this repo is
 
-A collection of Kimi Code CLI skills for Spring Boot / Java backend engineering — plus the `article`
-content skill. Each skill lives in `skills/<name>/SKILL.md` and may include `references/` files that
-the skill loads before doing work.
+A collection of Kimi Code CLI skills for Spring Boot / Java backend engineering. Each skill lives in
+`skills/<name>/SKILL.md` and may include `references/` files that the skill loads before doing work.
 
 Engineering skills: `spring-scaffold`, `spring-data-jpa`, `redis-setup`, `spring-security`,
 `api-design`, `spring-testing`, `devops-scaffold`, `otel-setup`, `kafka-setup`, `rabbitmq-setup`,
 `security-hardening`, `spring-ai-rag`, `mcp-server`, `legacy-migration`.
-Content skill: `article`.
 
 This is a meta-project: the deliverables are the skill files themselves, not a running application.
 
 Kimi Code CLI discovers skills project-locally from `.kimi-code/skills/` or `.agents/skills/` in
 the project root, globally from `~/.kimi-code/skills/` or `~/.agents/skills/`, or as a plugin via
 `.kimi-plugin/plugin.json`. See `README.md` for install instructions.
-
-The `article` skill is the exception to the terse-engineering style. It loads
-`references/voice-profile.md` and `references/article-craft.md` and drafts in the user's personal
-voice. The voice profile ships as a template with placeholders; remind the user to fill it in before
-running the first article draft.
 
 ## Skill conventions
 
