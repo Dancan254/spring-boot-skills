@@ -1,8 +1,8 @@
 # Kimi Spring Boot Skills
 
-Kimi Code CLI skills for building production-ready Spring Boot / Java backends — and turning the work into long-form written content.
+Kimi Code CLI skills for building production-ready Spring Boot / Java backends.
 
-This repo ports the engineering-focused skills from `your-javaguy-skills` and re-brands them for Kimi Code CLI. The scope is the code-and-ship loop: scaffolding, persistence, caching, messaging, DevOps, testing, and observability — plus AI engineering with Spring AI, and the article skill that drafts in your voice.
+This repo ports the engineering-focused skills from `your-javaguy-skills` and re-brands them for Kimi Code CLI. The scope is the code-and-ship loop: scaffolding, persistence, caching, messaging, DevOps, testing, and observability — plus AI engineering with Spring AI.
 
 ---
 
@@ -24,12 +24,6 @@ This repo ports the engineering-focused skills from `your-javaguy-skills` and re
 | `spring-ai-rag` | Add a RAG pipeline with Spring AI — PgVector with Flyway-owned DDL and HNSW index, Tika ingestion with token-aware chunking, a retrieval advisor with a similarity floor, and an end-to-end proof that answers are grounded in ingested documents. |
 | `mcp-server` | Expose a Spring Boot service as an MCP server — streamable HTTP transport, use-case-shaped `@McpTool` tools with description/validation/error discipline, honest read-only/destructive hints, endpoint security, and verification with a real MCP client. |
 | `legacy-migration` | Migrate Spring Boot 2.x/3.x apps to Boot 4.x — audit-first, OpenRewrite-led, one green build per hop (2.7 → 3.5 Jakarta jump → 4.0 Jackson 3 + modular starters → 4.1), with a symptom table for the changes that compile but break at runtime. |
-
-### Content
-
-| Skill | What it does |
-|-------|--------------|
-| `article` | Write a long-form technical article in your voice — Substack, dev.to, Medium, or Hashnode — grounded in real work, drafted as a plain-text `.txt` file for review. |
 
 ---
 
@@ -96,23 +90,6 @@ cp -r /path/to/spring-boot-skills/skills/* ~/.kimi-code/skills/
 
 You can use `~/.agents/skills/` instead of `~/.kimi-code/skills/` if you prefer. Restart or reload
 Kimi Code CLI if it was already running.
-
----
-
-## Setup
-
-### For the `article` skill
-
-The voice profile ships as a template. Before your first article, fill in the placeholders in
-`skills/article/references/voice-profile.md`:
-
-- `[Your Name]`
-- `[Your Publication / Platform]`
-- `[Your tagline]`
-- Any metaphors or humor examples you want to replace with your own
-
-Once those placeholders are replaced, every article draft will sound like you instead of generic
-"engaging blog" prose.
 
 ---
 
@@ -195,15 +172,10 @@ You rarely invoke a skill by name; just describe the outcome you want.
     │   ├── SKILL.md
     │   └── references/
     │       └── mcp-reference.md
-    ├── legacy-migration/
-    │   ├── SKILL.md
-    │   └── references/
-    │       └── migration-reference.md
-    └── article/
+    └── legacy-migration/
         ├── SKILL.md
         └── references/
-            ├── article-craft.md
-            └── voice-profile.md
+            └── migration-reference.md
 ```
 
 ---

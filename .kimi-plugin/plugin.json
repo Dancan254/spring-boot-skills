@@ -2,7 +2,7 @@
   "$schema": "https://kimi.com/schemas/kimi.plugin.schema.json",
   "name": "spring-boot-skills",
   "version": "1.0.0",
-  "description": "Kimi Code CLI skills for Spring Boot 4 / Java backend and AI engineering: scaffold, persistence, caching, messaging, security, DevOps, testing, observability, Spring AI RAG, MCP servers, legacy migration, and long-form technical writing.",
+  "description": "Kimi Code CLI skills for Spring Boot 4 / Java backend and AI engineering: scaffold, persistence, caching, messaging, security, DevOps, testing, observability, Spring AI RAG, MCP servers, and legacy migration.",
   "keywords": [
     "spring-boot",
     "java",
@@ -19,9 +19,7 @@
     "docker",
     "github-actions",
     "security",
-    "migration",
-    "technical-writing",
-    "article"
+    "migration"
   ],
   "author": "Dancan254",
   "license": "MIT",
@@ -29,7 +27,7 @@
   "interface": {
     "displayName": "Spring Boot Skills",
     "shortDescription": "Spring Boot 4 scaffold, data, caching, messaging, security, DevOps, testing, observability, Spring AI RAG, MCP, and migration skills for Kimi Code CLI.",
-    "longDescription": "A skill pack for building and shipping production-ready Spring Boot 4 / Java backends — including the AI engineering layer. Includes spring-scaffold for bootstrapping convention-compliant projects, spring-data-jpa and redis-setup for persistence and caching, kafka-setup and rabbitmq-setup for messaging, spring-security and security-hardening for security, devops-scaffold for Docker and CI, spring-testing for Testcontainers and Boot 4 test APIs, otel-setup for OpenTelemetry end to end, spring-ai-rag and mcp-server for Spring AI work, legacy-migration for Boot 2.x/3.x upgrades, and article for drafting long-form technical pieces in your voice.",
+    "longDescription": "A skill pack for building and shipping production-ready Spring Boot 4 / Java backends — including the AI engineering layer. Includes spring-scaffold for bootstrapping convention-compliant projects, spring-data-jpa and redis-setup for persistence and caching, kafka-setup and rabbitmq-setup for messaging, spring-security and security-hardening for security, devops-scaffold for Docker and CI, spring-testing for Testcontainers and Boot 4 test APIs, otel-setup for OpenTelemetry end to end, spring-ai-rag and mcp-server for Spring AI work, and legacy-migration for Boot 2.x/3.x upgrades.",
     "developerName": "Dancan254",
     "websiteURL": "https://github.com/Dancan254/spring-boot-skills"
   }
