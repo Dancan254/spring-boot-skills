@@ -24,14 +24,14 @@ or intermediate migration hops. They are not alternatives to the pin.
 | rewrite-maven-plugin | 6.46.1 | | legacy-migration |
 | image postgres | 18-alpine | | spring-testing |
 | image pgvector/pgvector | 0.8.6-pg18 | | spring-ai-rag |
-| image grafana/otel-lgtm | 0.33.1 | | otel-setup |
+| image grafana/otel-lgtm | 0.34.0 | | otel-setup |
 | image apache/kafka | 4.3.1 | | kafka-setup |
 | image rabbitmq | 4-management-alpine | | rabbitmq-setup |
-| image redis | 8.8.3-alpine | | redis-setup |
-| image ollama/ollama | 0.34.4 | | spring-ai-rag |
+| image redis | 8.10.2-alpine | | redis-setup |
+| image ollama/ollama | 0.35.0 | | spring-ai-rag |
 | image localstack/localstack | 4 | | spring-testing |
 | action actions/checkout | v7 | | devops-scaffold |
 | action actions/setup-java | v6 | | devops-scaffold |
 | action actions/upload-artifact | v7 | | devops-scaffold |
-| action aquasecurity/trivy-action | 0.36.0 | | security-hardening |
-| action github/codeql-action | v3 | | security-hardening |
+| action aquasecurity/trivy-action | v0.36.0 | | security-hardening |
+| action github/codeql-action | v4 | | security-hardening |

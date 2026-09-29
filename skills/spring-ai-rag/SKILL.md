@@ -354,7 +354,7 @@ postgres:
     retries: 10
 
 ollama:                                  # only for the Ollama branch
-  image: ollama/ollama:0.34.4            # pinned; verify below
+  image: ollama/ollama:0.35.0            # pinned; verify below
   ports:
     - "11434:11434"
   volumes:

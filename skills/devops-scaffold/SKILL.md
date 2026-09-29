@@ -139,7 +139,7 @@ Redis:
 
 ```yaml
 redis:
-  image: redis:8.8.3-alpine
+  image: redis:8.10.2-alpine
   ports:
     - "6379:6379"
   healthcheck:
@@ -194,7 +194,7 @@ Grafana LGTM (add whenever `spring-boot-starter-opentelemetry` is on the classpa
 
 ```yaml
 otel-lgtm:
-  image: grafana/otel-lgtm:0.33.1
+  image: grafana/otel-lgtm:0.34.0
   ports:
     - "3000:3000"   # Grafana
     - "4317:4317"   # OTLP gRPC
@@ -211,7 +211,7 @@ single named volume persists the lot.
 Grafana is at <http://localhost:3000>, default login `admin` / `admin` — fine for a dev compose file,
 never for anything reachable off the machine.
 
-Before writing, confirm `0.33.1` is still the newest tag:
+Before writing, confirm `0.34.0` is still the newest tag:
 
 ```bash
 curl -s "https://hub.docker.com/v2/repositories/grafana/otel-lgtm/tags?page_size=5&ordering=last_updated" \

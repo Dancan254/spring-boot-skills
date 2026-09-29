@@ -164,7 +164,7 @@ configures all three endpoints itself:
 ```yaml
 services:
   otel-lgtm:
-    image: grafana/otel-lgtm:0.33.1   # pin it; never :latest
+    image: grafana/otel-lgtm:0.34.0   # pin it; never :latest
     ports:
       - "3000:3000"   # Grafana
       - "4317:4317"   # OTLP gRPC
@@ -223,7 +223,7 @@ OTel wired · 3/3 signals verified in Grafana
 Starter ............... ✅ spring-boot-starter-opentelemetry (BOM-managed)
 Export config ......... ✅ metrics · traces · logs — sampling 1.0 (explicit)
 Log appender .......... ✅ 2.28.1-alpha (matched to OTel API 1.62.0)
-Backend ............... ✅ grafana/otel-lgtm:0.33.1 via compose
+Backend ............... ✅ grafana/otel-lgtm:0.34.0 via compose
 Traces ................ ✅ visible in Tempo, service=job-board
 Metrics ............... ✅ http_server_requests_seconds_count = 7
 Logs .................. ✅ visible in Loki, trace IDs present

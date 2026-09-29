@@ -4,7 +4,7 @@ class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     LgtmStackContainer grafanaLgtmContainer() {
-        return new LgtmStackContainer(DockerImageName.parse("grafana/otel-lgtm:0.33.1"));
+        return new LgtmStackContainer(DockerImageName.parse("grafana/otel-lgtm:0.34.0"));
     }
 
     @Bean
