@@ -1,6 +1,6 @@
 ---
 name: mcp-server
-description: "Expose an existing Spring Boot 4 service as an MCP (Model Context Protocol) server using Spring AI — the MCP server starters, streamable HTTP vs STDIO transport choice, @McpTool tool exposure with real description/validation/error discipline, tool annotations (readOnly/destructive/idempotent hints), endpoint security with the existing resource-server setup, MCP client tests with no live LLM, and MCP Inspector verification. Use when asked to add MCP, expose tools to an LLM, make my API callable by Claude or an agent, turn my service into an MCP server, or let an AI call my backend."
+description: "Expose an existing Spring Boot 4 Maven service as an MCP server with Spring AI — transport choice, @McpTool tools, tool hints, endpoint security, and verification with a real MCP client. Use when asked to add MCP, expose tools to an LLM or agent, or let an AI call my backend. Not for RAG — use spring-ai-rag."
 ---
 
 # MCP Server Skill

@@ -1,6 +1,6 @@
 ---
 name: spring-testing
-description: "Write, repair, and modernise tests in an existing Spring Boot 4 project — Testcontainers 2.x setup, integration vs unit routing, and the Boot 4 test API (@MockitoBean, MockMvcTester, RestTestClient). Audits the test setup for 1.x Testcontainers coordinates, dead @MockBean/@SpyBean imports, and unpinned images before writing anything. Use when asked to add tests, write an integration test, set up Testcontainers, fix a flaky or slow test suite, migrate Testcontainers 1.x to 2.x, or 'why is my test using an embedded database'."
+description: "Write, repair, and modernise tests in an existing Spring Boot 4 project (Maven or Gradle) — Testcontainers 2.x, integration vs unit routing, and the Boot 4 test API (@MockitoBean, MockMvcTester, RestTestClient). Use when asked to add or fix tests, set up Testcontainers, or migrate off Testcontainers 1.x or @MockBean."
 ---
 
 # Spring Testing Skill

@@ -1,6 +1,6 @@
 ---
 name: spring-scaffold
-description: "Scaffold a new Spring Boot 4 project with opinionated conventions — correct package structure, pom.xml with modern dependencies, global exception handler, ProblemDetail config, Testcontainers base class, Dockerfile, GitHub Actions CI, a pre-filled project AGENTS.md, and a portfolio-facing README.md. Use when asked to create, scaffold, bootstrap, or start a new Spring Boot project."
+description: "Scaffold a new Spring Boot 4 Maven project — feature-sliced packages, ProblemDetail error handling, Testcontainers, Dockerfile, GitHub Actions CI, AGENTS.md, and README. Opinionated: Lombok, PostgreSQL, and OpenTelemetry by default. Use when asked to create, scaffold, or bootstrap a new Spring Boot project. Not for existing projects."
 ---
 
 # Spring Boot Scaffold Skill

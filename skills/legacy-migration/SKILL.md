@@ -1,6 +1,6 @@
 ---
 name: legacy-migration
-description: "Migrate an existing Spring Boot 2.x or 3.x application to Spring Boot 4.x — audit first, then phased version hops (2.7 → 3.5 → 4.0 → 4.1) led by OpenRewrite recipes for the mechanical work, hand-sweeps for the semantic remainder, and a verification ladder after every hop. Covers the Jakarta namespace jump, Jackson 3, modularized starters, property renames, and the behavior changes that compile green but break at runtime. Use when asked to upgrade Spring Boot, migrate Boot 2 to 4, do a Jakarta namespace migration, modernize a legacy Spring app, or fix javax imports after an upgrade."
+description: "Migrate a Spring Boot 2.x or 3.x app to Boot 4.x (Maven or Gradle) — audit first, then OpenRewrite-led version hops with a green build per hop, covering Jakarta, Jackson 3, modular starters, and runtime-only breakages. Use when asked to upgrade or migrate Spring Boot, or fix javax imports after an upgrade. Not for new projects."
 ---
 
 # Legacy Migration Skill

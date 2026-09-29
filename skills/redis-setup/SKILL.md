@@ -1,6 +1,6 @@
 ---
 name: redis-setup
-description: "Add Redis caching and rate limiting to an existing Spring Boot 4 project — spring-boot-starter-data-redis, Spring Cache on Redis with explicit Jackson 3 JSON serialization, per-cache TTL config, Bucket4j Redis-backed rate limiting, Testcontainers Redis tests, and docker-compose service wiring. Use when asked to add Redis, add caching, cache this endpoint, speed up repeated queries, or rate limit an API."
+description: "Add Redis caching and rate limiting to an existing Spring Boot 4 Maven project — Spring Cache on Redis with per-cache TTLs, graceful cache failure, Redis-backed rate limiting, Testcontainers tests, compose wiring. Use when asked to add Redis, cache an endpoint or query, or rate limit an API."
 ---
 
 # Redis Setup Skill
