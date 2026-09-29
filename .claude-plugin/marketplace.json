@@ -1,0 +1,12 @@
+{
+  "name": "dancan254",
+  "description": "Spring Boot / Java backend skills",
+  "owner": { "name": "Dancan254" },
+  "plugins": [
+    {
+      "name": "spring-boot-skills",
+      "source": "./",
+      "description": "Spring Boot 4 scaffold, persistence, messaging, security, DevOps, testing, observability, Spring AI, and migration skills"
+    }
+  ]
+}

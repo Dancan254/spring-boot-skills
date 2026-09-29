@@ -1,8 +1,11 @@
-# Kimi Spring Boot Skills
+# Spring Boot Skills
 
-Kimi Code CLI skills for building production-ready Spring Boot / Java backends.
+Agent skills for building production-ready Spring Boot 4 / Java backends. They work in Claude Code,
+Codex, and Kimi Code CLI.
 
-This repo ports the engineering-focused skills from `your-javaguy-skills` and re-brands them for Kimi Code CLI. The scope is the code-and-ship loop: scaffolding, persistence, caching, messaging, DevOps, testing, and observability — plus AI engineering with Spring AI.
+The scope is the code-and-ship loop: scaffolding, persistence, caching, messaging, DevOps, testing,
+and observability, plus AI engineering with Spring AI. Every skill is a plain `SKILL.md` folder under
+`skills/`. The three tools share that folder; only the thin manifests differ.
 
 ---
 
@@ -29,86 +32,65 @@ This repo ports the engineering-focused skills from `your-javaguy-skills` and re
 
 ## Install
 
-Kimi Code CLI discovers skills from these tiers (more specific scopes take priority):
+### Claude Code
 
-| Scope | Paths scanned |
-|-------|---------------|
-| Project | `.kimi-code/skills/<name>/SKILL.md` or `.agents/skills/<name>/SKILL.md` |
-| User | `~/.kimi-code/skills/<name>/SKILL.md` or `~/.agents/skills/<name>/SKILL.md` |
-| Plugin | Skills declared by enabled plugins |
-
-The default user path follows `$KIMI_CODE_HOME` when that variable is set; otherwise it is
-`~/.kimi-code`.
-
-### Option A — Plugin install (recommended)
-
-Install this repo as a plugin from a local path or from GitHub, then reload. These are slash
-commands inside Kimi Code CLI, not shell commands:
+Install as a plugin from this repo's marketplace. Inside a session:
 
 ```text
-/plugins install /path/to/spring-boot-skills
-# or, from GitHub:
-/plugins install https://github.com/Dancan254/spring-boot-skills
+/plugin marketplace add Dancan254/spring-boot-skills
+/plugin install spring-boot-skills@dancan254
 ```
 
-After installation completes, run `/reload` or start a new session (`/new`). The plugin manifest in
-`.kimi-plugin/plugin.json` declares `"skills": "./skills/"`, so all skills are registered
-automatically.
+Or from your shell: `claude plugin marketplace add Dancan254/spring-boot-skills`, then
+`claude plugin install spring-boot-skills@dancan254`. Skills are namespaced under the plugin, e.g.
+`spring-boot-skills:spring-scaffold`. Run `/reload-plugins` if a session was already open.
 
-### Option B — Project-local (try it out)
+Without the plugin, copy or symlink the skill folders into `~/.claude/skills/` (user) or
+`.claude/skills/` (project).
 
-Clone the repo, then expose the `skills/` directory to Kimi Code CLI's project-level scanner:
+### Codex
 
-```bash
-git clone https://github.com/Dancan254/spring-boot-skills.git
-cd spring-boot-skills
-mkdir -p .kimi-code
-ln -s "$PWD/skills" .kimi-code/skills
-```
-
-Alternatively copy the skill directories into `.kimi-code/skills/` (or `.agents/skills/`). Then
-start Kimi Code CLI from inside the repo.
-
-### Option C — User/global (always available)
-
-Make the skills available from any directory by placing each skill folder directly under a user
-skills directory:
+Codex scans `.agents/skills/` in every directory from the working directory up to the repo root,
+and `~/.agents/skills/` for the user. Symlink each skill folder into the user directory:
 
 ```bash
 cd /path/to/spring-boot-skills
-mkdir -p ~/.kimi-code/skills
+mkdir -p ~/.agents/skills
 for d in skills/*/; do
-  ln -s "$PWD/$d" ~/.kimi-code/skills/"$(basename "$d")"
+  ln -s "$PWD/$d" ~/.agents/skills/"$(basename "$d")"
 done
 ```
 
-Or copy instead of symlink:
+The repo root also carries a portable `plugin.json` (Agent Plugins 1.0.0 schema) for plugin-based
+distribution.
 
-```bash
-cp -r /path/to/spring-boot-skills/skills/* ~/.kimi-code/skills/
+### Kimi Code CLI
+
+Install as a plugin. These are slash commands inside Kimi Code CLI:
+
+```text
+/plugins install https://github.com/Dancan254/spring-boot-skills
 ```
 
-You can use `~/.agents/skills/` instead of `~/.kimi-code/skills/` if you prefer. Restart or reload
-Kimi Code CLI if it was already running.
+Then `/reload` or start a new session (`/new`). `.kimi-plugin/plugin.json` declares
+`"skills": "./skills/"`, so every skill registers automatically.
+
+Kimi also scans `.kimi-code/skills/` or `.agents/skills/` in the project, and `~/.kimi-code/skills/`
+or `~/.agents/skills/` for the user (`$KIMI_CODE_HOME` overrides `~/.kimi-code`). The Codex symlink
+loop above into `~/.agents/skills/` covers both Codex and Kimi at once.
 
 ---
 
 ## How to use
 
-Each skill is a directory under `skills/<name>/` containing a `SKILL.md` file and optional `references/`.
-
-Kimi Code CLI loads skills automatically when they are discoverable from the project
-(`.kimi-code/skills/` or `.agents/skills/`), from a user skills directory
-(`~/.kimi-code/skills/` or `~/.agents/skills/`), or through an enabled plugin. Describe what you
-want in plain language; the skill description acts as the trigger. Example:
+Describe the outcome you want in plain language; each skill's `description` is its trigger:
 
 ```
 Scaffold a new Spring Boot project called order-service that manages Orders and Customers.
 ```
 
-The matching skill (`spring-scaffold`) will run and generate the project.
-
-You rarely invoke a skill by name; just describe the outcome you want.
+The matching skill (`spring-scaffold`) runs and generates the project. You rarely invoke a skill by
+name.
 
 ---
 
@@ -116,8 +98,12 @@ You rarely invoke a skill by name; just describe the outcome you want.
 
 ```
 .
+├── .claude-plugin/        # Claude Code plugin + marketplace manifests
+├── .kimi-plugin/          # Kimi Code CLI plugin manifest
+├── plugin.json            # Portable Agent Plugins manifest (Codex)
+├── AGENTS.md              # Contributor notes (CLAUDE.md imports it)
+├── CHANGELOG.md
 ├── README.md
-├── AGENTS.md
 └── skills/
     ├── spring-scaffold/
     │   ├── SKILL.md

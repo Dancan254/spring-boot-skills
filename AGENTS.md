@@ -1,8 +1,8 @@
-# Kimi Spring Boot Skills — Agent Notes
+# Spring Boot Skills — Agent Notes
 
 ## What this repo is
 
-A collection of Kimi Code CLI skills for Spring Boot / Java backend engineering. Each skill lives in
+A collection of agent skills for Spring Boot / Java backend engineering. Each skill lives in
 `skills/<name>/SKILL.md` and may include `references/` files that the skill loads before doing work.
 
 Engineering skills: `spring-scaffold`, `spring-data-jpa`, `redis-setup`, `spring-security`,
@@ -11,9 +11,10 @@ Engineering skills: `spring-scaffold`, `spring-data-jpa`, `redis-setup`, `spring
 
 This is a meta-project: the deliverables are the skill files themselves, not a running application.
 
-Kimi Code CLI discovers skills project-locally from `.kimi-code/skills/` or `.agents/skills/` in
-the project root, globally from `~/.kimi-code/skills/` or `~/.agents/skills/`, or as a plugin via
-`.kimi-plugin/plugin.json`. See `README.md` for install instructions.
+The skills use the shared `SKILL.md` format and run in Claude Code, Codex, and Kimi Code CLI. Each
+tool has a thin manifest: `.claude-plugin/` (Claude Code), root `plugin.json` (Agent Plugins /
+Codex), `.kimi-plugin/` (Kimi). All three point at the same `skills/` folder. See `README.md` for
+install instructions.
 
 ## Skill conventions
 
@@ -26,7 +27,8 @@ the project root, globally from `~/.kimi-code/skills/` or `~/.agents/skills/`, o
 
 ## When editing these skills
 
-- Keep the Kimi Code CLI framing — skills are invoked by natural-language intent, not by slash command.
+- Keep skill bodies tool-neutral — no tool or brand names. Skills are invoked by natural-language
+  intent. Tool-specific install steps live in `README.md` only.
 - Preserve the source attribution in spirit but do not copy `@your_javaguy` brand references. Use neutral, direct language.
 - Update `references/` files when the corresponding `SKILL.md` changes so they stay consistent.
 - If you add a new skill, add it to `README.md` and update this `AGENTS.md`.
@@ -42,3 +44,5 @@ the project root, globally from `~/.kimi-code/skills/` or `~/.agents/skills/`, o
 
 - `skills/*/references/*.md` are loaded by the skill at runtime. Do not delete or rename them without updating the loading instruction in the parent `SKILL.md`.
 - `README.md` is the human-facing front door; keep it in sync with the skill list.
+- Keep `name`, `version`, and `description` in sync across `.claude-plugin/plugin.json`,
+  `plugin.json`, and `.kimi-plugin/plugin.json`, and log every release in `CHANGELOG.md`.
