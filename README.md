@@ -198,7 +198,23 @@ claude plugin eval . --ablation none --no-publish            # full suite, ~3 ru
 claude plugin eval . --case add-kafka-consumer --runs 1 --ablation none   # one case, once
 ```
 
-Every run is a real model call on your account (about $0.05–0.10 per run). Cases cap at 2 turns, so
+`claude plugin eval --model <model>` covers other Claude models. To run the suite on other agent
+CLIs, use `scripts/run-evals.py`:
+
+```bash
+python3 scripts/run-evals.py --tool kimi --runs 3             # full suite on Kimi
+python3 scripts/run-evals.py --tool codex --case secure-api-with-jwt --runs 1
+python3 scripts/run-evals.py --tool claude --case 'add-*'     # thin wrapper over claude plugin eval
+```
+
+The kimi/codex arms drive each CLI's headless mode, seed a minimal `pom.xml` in the scratch dir so
+"this Spring Boot service" prompts route instead of refusing, and cut each run once the routing
+decision is made — those CLIs have no max-turns flag, so the runner enforces the cap itself.
+Graders are applied locally against the event stream. Limitations vs the Claude harness: no cost
+reporting, no ablation arms, and routing via a subagent (`Agent` tool) is invisible to the
+`tool_used` grader, so a model that delegates instead of firing `Skill` directly scores as a miss.
+
+Every run is a real model call on your account (about $0.05–0.10 per run on Claude). Cases cap at 2 turns, so
 `Reached maximum number of turns (2)` in the notes is expected — routing is decided on the first
 turn; the second is slack for one tool call plus the answer. `--ablation none` is deliberate: skill-fired graders aren't scored in the no-plugin arm, so the
 baseline adds cost without signal for a routing suite.

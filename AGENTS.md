@@ -42,7 +42,9 @@ install instructions.
 - Every skill needs at least one `evals/<case>/` whose `skill-fired` grader expects it; the lint fails
   otherwise. When two skills could claim the same request, add a `not-<skill>` grader (`min: 0`,
   `max: 0`, `arm: both`). After changing a `description:`, re-run that skill's cases with
-  `claude plugin eval . --case <case> --ablation none`.
+  `claude plugin eval . --case <case> --ablation none`. The suite also runs on other agent CLIs via
+  `python3 scripts/run-evals.py --tool kimi|codex` — keep graders to the `tool_used` and `regex`
+  types so they stay portable.
 
 ## Brand voice
 
