@@ -260,7 +260,7 @@ Testcontainers 2.x shapes: `PostgreSQLContainer` comes from `org.testcontainers.
 self-generic — no `<?>` — and they take a `DockerImageName`, never a raw `String`.
 
 This is the whole testing surface the scaffold generates: one base class, one container. Everything
-past it — Redis/Kafka/RabbitMQ/LocalStack containers, unit vs integration routing, the Boot 4 test
+past it — Redis/Kafka/RabbitMQ/Floci (AWS) containers, unit vs integration routing, the Boot 4 test
 API (`@MockitoBean`, `MockMvcTester`, `RestTestClient`), and writing the tests themselves — belongs
 to the **`spring-testing`** skill. Point the user there in the Step 10 report rather than growing
 this step.
