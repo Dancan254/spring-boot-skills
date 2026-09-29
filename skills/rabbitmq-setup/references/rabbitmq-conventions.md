@@ -91,8 +91,11 @@ Testcontainers 2.x uses `org.testcontainers.rabbitmq.RabbitMQContainer` from
 `org.testcontainers:testcontainers-rabbitmq`.
 
 ```java
-static RabbitMQContainer rabbitmq =
-    new RabbitMQContainer(DockerImageName.parse("rabbitmq:4-management-alpine"));
+@Bean
+@ServiceConnection
+RabbitMQContainer rabbitmqContainer() {
+    return new RabbitMQContainer(DockerImageName.parse("rabbitmq:4-management-alpine"));
+}
 ```
 
-Use `rabbitmq.getAmqpPort()` and `rabbitmq.getHost()` to wire `spring.rabbitmq.*` properties.
+Declared in `IntegrationTestContainers`; `@ServiceConnection` wires `spring.rabbitmq.*`.

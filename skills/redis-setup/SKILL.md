@@ -271,26 +271,25 @@ two-tier shape and when to trust `X-Forwarded-For`.
 
 ## Step 7 — Testcontainers base test
 
-If `BaseIntegrationTest` exists (from `spring-scaffold` or `spring-testing`), create
-`src/test/java/<package>/BaseRedisIntegrationTest.java`:
+If `BaseIntegrationTest` exists (from `spring-scaffold` or `spring-testing`), add a Redis bean to
+the `IntegrationTestContainers` configuration it imports:
 
 ```java
-public abstract class BaseRedisIntegrationTest extends BaseIntegrationTest {
-
-    static RedisContainer redis =
-        new RedisContainer(DockerImageName.parse("redis:8.10.2-alpine"));
-
-    static {
-        redis.start();
-    }
-
-    @DynamicPropertySource
-    static void redisProps(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.redis.host", redis::getHost);
-        registry.add("spring.data.redis.port", () -> redis.getMappedPort(6379));
-    }
+@Bean
+@ServiceConnection
+RedisContainer redisContainer() {
+    return new RedisContainer(DockerImageName.parse("redis:8.10.2-alpine"));
 }
 ```
+
+Boot's `RedisContainerConnectionDetailsFactory` matches `RedisContainer` by type and sets the host and
+port.
+
+Tests extend `BaseIntegrationTest` as before — no separate base class, no
+`@DynamicPropertySource`, and no `static {}` start. If the project's base class still declares a
+`static @Container`, move that container into `IntegrationTestContainers` first (see
+`spring-testing` Step 3): the JUnit extension stops it after the first test class while Spring keeps
+the cached context.
 
 `RedisContainer` is `com.redis.testcontainers.RedisContainer` from the Step 2 dependency. Before
 writing, confirm `8.10.2-alpine` still exists:
@@ -310,7 +309,7 @@ A cache nobody verified is a rumor. Create
 `src/test/java/<package>/job/JobServiceCacheIntegrationTest.java`:
 
 ```java
-class JobServiceCacheIntegrationTest extends BaseRedisIntegrationTest {
+class JobServiceCacheIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     private JobService jobService;

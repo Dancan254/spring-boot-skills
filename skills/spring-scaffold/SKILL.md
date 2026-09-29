@@ -48,7 +48,7 @@ database or none, say so and stop rather than generating a half-fitting project.
 
 With `otel: false`: drop `opentelemetry` from the Step 1 dependencies, skip Step 4b and Step 5b,
 remove the `properties` block from `BaseIntegrationTest` and the OTLP/tracing keys from
-`application.yml`, drop the LGTM container from `TestcontainersConfiguration`, and remove the
+`application.yml`, drop the LGTM bean from `TestcontainersConfiguration` (keep its `@Import`), and remove the
 Grafana/OTel mentions from the AGENTS.md, README, and report.
 
 ---
@@ -236,7 +236,10 @@ first-class keyset scrolling, no third-party pagination library needed.
 
 ## Step 4 — Write the Testcontainers base class
 
-Write `assets/templates/java/BaseIntegrationTest.java` to `src/test/java/<package>/BaseIntegrationTest.java`.
+| Template | Written to `src/test/java/<package>/` |
+|----------|------------------|
+| `java/IntegrationTestContainers.java` | `IntegrationTestContainers.java` |
+| `java/BaseIntegrationTest.java` | `BaseIntegrationTest.java` |
 
 Before writing the file, confirm `18-alpine` is still the current Postgres major:
 
@@ -245,9 +248,12 @@ curl -s "https://hub.docker.com/v2/repositories/library/postgres/tags/18-alpine"
   | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['name'], d['last_updated'][:10])"
 ```
 
-`@Testcontainers` is required — it's the JUnit 5 extension that actually starts the static
-`@Container` before the test run; `@ServiceConnection` only wires the connection details, it does
-not start anything. All integration tests extend this class.
+**Containers are Spring beans, not `static @Container` fields.** The JUnit extension stops a static
+`@Container` after each test class, but Spring caches the application context across classes — so
+the second test class gets a cached context pointing at a stopped container's port and fails with
+`Connection refused`. A `@Bean` container lives exactly as long as the context that uses it. Never add
+`@Testcontainers`/`@Container` to the base class. All integration tests extend `BaseIntegrationTest`;
+every backing service is a `@Bean @ServiceConnection` method in `IntegrationTestContainers`.
 
 The `properties` disable OTLP export so tests don't spam connection warnings against a collector that
 isn't running, and so no test pays for starting the LGTM image. These are the Boot 4.1 keys, verified
@@ -259,7 +265,7 @@ Testcontainers 2.x shapes: `PostgreSQLContainer` comes from `org.testcontainers.
 `org.testcontainers.containers.*` classes are deprecated shims), the container classes are no longer
 self-generic — no `<?>` — and they take a `DockerImageName`, never a raw `String`.
 
-This is the whole testing surface the scaffold generates: one base class, one container. Everything
+This is the whole testing surface the scaffold generates: one base class, one container configuration. Everything
 past it — Redis/Kafka/RabbitMQ/Floci (AWS) containers, unit vs integration routing, the Boot 4 test
 API (`@MockitoBean`, `MockMvcTester`, `RestTestClient`), and writing the tests themselves — belongs
 to the **`spring-testing`** skill. Point the user there in the Step 10 report rather than growing
@@ -271,9 +277,10 @@ this step.
 
 Initializr generates `TestcontainersConfiguration` and `Test<MainClass>Application` in `src/test/java/`.
 **Keep both** — they're how `./mvnw spring-boot:test-run` gives you Postgres plus a full observability
-backend with zero config. Pin the image tags in `TestcontainersConfiguration` (Initializr writes
-`:latest`, which violates the pin rule) by replacing the generated file's body with
-`assets/templates/java/TestcontainersConfiguration.java`.
+backend with zero config. Replace the generated `TestcontainersConfiguration` body with
+`assets/templates/java/TestcontainersConfiguration.java`: it imports `IntegrationTestContainers`, so
+Postgres is declared once for both tests and `test-run`, and adds the pinned LGTM container
+(Initializr writes `:latest` for both, which violates the pin rule).
 
 `LgtmStackContainer` (`org.testcontainers.grafana`) runs the whole Grafana LGTM stack in one
 container — Loki (logs), Grafana (dashboards), Tempo (traces), and Prometheus (metrics, standing in
@@ -301,7 +308,7 @@ Run it with:
 The container logs `Access to the Grafana dashboard: http://localhost:<mapped-port>` on startup —
 open that for live traces, metrics, and logs from the running app. The image is ~1 GB on first pull.
 
-This container is deliberately **not** in `BaseIntegrationTest` — integration tests assert behaviour,
+This container is deliberately **not** in `IntegrationTestContainers` — integration tests assert behaviour,
 not telemetry, and shouldn't pay a 1 GB image start.
 
 ---

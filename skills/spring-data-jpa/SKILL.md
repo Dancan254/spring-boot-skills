@@ -274,19 +274,31 @@ class JobRepositoryIntegrationTest extends BaseIntegrationTest {
 }
 ```
 
-If no `BaseIntegrationTest` exists, create one first. Use the pattern from `spring-scaffold`:
+If no `BaseIntegrationTest` exists, create it and its container configuration first, using the
+pattern from `spring-scaffold`:
+
+```java
+@TestConfiguration(proxyBeanMethods = false)
+public class IntegrationTestContainers {
+
+    @Bean
+    @ServiceConnection
+    PostgreSQLContainer postgresContainer() {
+        return new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
+    }
+}
+```
 
 ```java
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
+@Import(IntegrationTestContainers.class)
 public abstract class BaseIntegrationTest {
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer postgres =
-        new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
 }
 ```
+
+The container is a Spring bean, not a `static @Container` field: the JUnit extension would stop it
+after the first test class while Spring keeps the cached context, and the next class would fail with
+`Connection refused`.
 
 Before writing, confirm `18-alpine` is still current:
 

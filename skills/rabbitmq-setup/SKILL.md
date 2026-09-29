@@ -231,34 +231,25 @@ indefinitely.
 
 ## Step 8 — Testcontainers base test
 
-If `BaseIntegrationTest` exists, create `BaseRabbitmqIntegrationTest`:
+If `BaseIntegrationTest` exists, add a RabbitMQ bean to the `IntegrationTestContainers` configuration
+it imports:
 
 ```java
-package <package>;
-
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.rabbitmq.RabbitMQContainer;
-import org.testcontainers.utility.DockerImageName;
-
-public abstract class BaseRabbitmqIntegrationTest extends BaseIntegrationTest {
-
-    static RabbitMQContainer rabbitmq =
-        new RabbitMQContainer(DockerImageName.parse("rabbitmq:4-management-alpine"));
-
-    static {
-        rabbitmq.start();
-    }
-
-    @DynamicPropertySource
-    static void rabbitmqProps(DynamicPropertyRegistry registry) {
-        registry.add("spring.rabbitmq.host", rabbitmq::getHost);
-        registry.add("spring.rabbitmq.port", rabbitmq::getAmqpPort);
-        registry.add("spring.rabbitmq.username", rabbitmq::getAdminUsername);
-        registry.add("spring.rabbitmq.password", rabbitmq::getAdminPassword);
-    }
+@Bean
+@ServiceConnection
+RabbitMQContainer rabbitmqContainer() {
+    return new RabbitMQContainer(DockerImageName.parse("rabbitmq:4-management-alpine"));
 }
 ```
+
+`RabbitMQContainer` is `org.testcontainers.rabbitmq.RabbitMQContainer`; Boot's
+`RabbitContainerConnectionDetailsFactory` sets host, port, and credentials.
+
+Tests extend `BaseIntegrationTest` as before — no separate base class, no
+`@DynamicPropertySource`, and no `static {}` start. If the project's base class still declares a
+`static @Container`, move that container into `IntegrationTestContainers` first (see
+`spring-testing` Step 3): the JUnit extension stops it after the first test class while Spring keeps
+the cached context.
 
 Before writing, confirm `4-management-alpine` is still current:
 
@@ -278,7 +269,7 @@ Create `src/test/java/<package>/job/JobEventConsumerIntegrationTest.java`:
 ```java
 package <package>.job;
 
-import <package>.BaseRabbitmqIntegrationTest;
+import <package>.BaseIntegrationTest;
 import <package>.shared.config.RabbitmqConfig;
 import <package>.shared.rabbitmq.RabbitmqPublisher;
 import org.junit.jupiter.api.Test;
@@ -289,7 +280,7 @@ import java.time.Instant;
 
 import static org.awaitility.Awaitility.await;
 
-class JobEventConsumerIntegrationTest extends BaseRabbitmqIntegrationTest {
+class JobEventConsumerIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     private RabbitmqPublisher publisher;

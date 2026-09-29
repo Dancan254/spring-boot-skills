@@ -1,7 +1,5 @@
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -10,11 +8,6 @@ import org.testcontainers.utility.DockerImageName;
         "management.tracing.export.enabled=false",
         "management.logging.export.otlp.enabled=false"
     })
-@Testcontainers
+@Import(IntegrationTestContainers.class)
 public abstract class BaseIntegrationTest {
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer postgres =
-        new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
 }

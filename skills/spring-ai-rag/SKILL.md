@@ -285,15 +285,17 @@ nightly job — flag that as a follow-up, don't pretend the smoke test is it.
 
 ## Step 8 — Tests
 
-`BaseIntegrationTest` (from `spring-scaffold`) runs plain `postgres:18-alpine`, which has no pgvector
-extension. Swap the image — pgvector's image is a drop-in Postgres, so one container still serves the
-whole suite:
+`IntegrationTestContainers` (from `spring-scaffold`) runs plain `postgres:18-alpine`, which has no
+pgvector extension. Swap the image in its Postgres bean — pgvector's image is a drop-in Postgres, so
+one container still serves the whole suite:
 
 ```java
-@Container
+@Bean
 @ServiceConnection
-static PostgreSQLContainer postgres = new PostgreSQLContainer(
-    DockerImageName.parse("pgvector/pgvector:0.8.6-pg18").asCompatibleSubstituteFor("postgres"));
+PostgreSQLContainer postgresContainer() {
+    return new PostgreSQLContainer(
+        DockerImageName.parse("pgvector/pgvector:0.8.6-pg18").asCompatibleSubstituteFor("postgres"));
+}
 ```
 
 Confirm the tag before writing:
