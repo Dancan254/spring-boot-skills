@@ -1,6 +1,6 @@
 ---
 name: rabbitmq-setup
-description: "Add RabbitMQ producers and consumers to an existing Spring Boot 4 project — Spring AMQP config, JSON messaging, dead-letter exchange handling, Testcontainers RabbitMQ tests, and docker-compose service wiring. Use when asked to add RabbitMQ, message queue, AMQP producer/consumer, async messaging, or event-driven architecture with RabbitMQ."
+description: "Add RabbitMQ producers and consumers to an existing Spring Boot 4 Maven project — Spring AMQP config, JSON messages, dead-letter exchanges, Testcontainers tests, compose wiring. Use when asked to add RabbitMQ, AMQP, or work queues. If messaging is requested without naming a broker, ask Kafka or RabbitMQ first."
 ---
 
 # RabbitMQ Setup Skill
@@ -15,6 +15,8 @@ exchange/queue naming, routing keys, TTL/DLX patterns, and the Testcontainers Ra
 ---
 
 ## Step 0 — Gather inputs
+
+If the user asked for messaging without naming a broker, ask Kafka or RabbitMQ before going further.
 
 | Field | Required | Notes |
 |-------|----------|-------|

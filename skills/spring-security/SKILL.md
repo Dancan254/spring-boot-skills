@@ -1,6 +1,6 @@
 ---
 name: spring-security
-description: "Add JWT-based API security to an existing Spring Boot 4 project — resource server config, JWT claim mapping, method security, and tests. Use when asked to secure an API, add JWT auth, set up OAuth2 resource server, add roles/permissions, or protect Spring Boot endpoints."
+description: "Add JWT resource-server security to an existing Spring Boot 4 Maven project — security config, claim-to-role mapping, method security, and tests. Use when asked to secure an API, add JWT or OAuth2 resource server auth, or add roles and permissions. Not for dependency, secret, or image scanning — use security-hardening."
 ---
 
 # Spring Security Skill
@@ -37,7 +37,16 @@ ls src/main/java/<package>/shared/
 cat src/main/resources/application.yml 2>/dev/null || cat src/main/resources/application.properties 2>/dev/null
 ```
 
-Confirm Spring Boot 4.x and a web dependency (`spring-boot-starter-web`).
+Confirm Spring Boot 4.x and a web dependency (`spring-boot-starter-web`). Every dependency this skill
+adds is managed by the Boot BOM, so the only pin to verify is the Boot version itself — compare the
+project's parent against the latest 4.x GA:
+
+```bash
+curl -s "https://repo1.maven.org/maven2/org/springframework/boot/spring-boot-starter-parent/maven-metadata.xml" \
+  | grep -oE '<version>4\.[0-9]+\.[0-9]+</version>' | tail -3
+```
+
+If the project is behind, flag it and suggest `legacy-migration` rather than bumping it here.
 
 ---
 

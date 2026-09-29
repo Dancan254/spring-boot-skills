@@ -1,6 +1,6 @@
 ---
 name: devops-scaffold
-description: "Add or update Docker and CI/CD config for an existing project — Dockerfile, docker-compose.yml, and GitHub Actions CI. Use when asked to dockerize a project, add CI, add GitHub Actions, or set up DevOps for an existing Spring Boot project. Reads the current project before generating anything."
+description: "Add or update Dockerfile, docker-compose.yml, and GitHub Actions CI for an existing Spring Boot Maven project; reads the project first. Use when asked to dockerize a project, add CI or GitHub Actions, or set up DevOps. Not for security scanning — use security-hardening. Not for new projects — use spring-scaffold."
 ---
 
 # DevOps Scaffold Skill

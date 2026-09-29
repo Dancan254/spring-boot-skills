@@ -1,6 +1,6 @@
 ---
 name: api-design
-description: "Add OpenAPI documentation and REST API conventions to an existing Spring Boot 4 project — SpringDoc, versioning, consistent ProblemDetail error schemas, and DTO conventions. Use when asked to add OpenAPI, document APIs, add Swagger, version an API, or define REST conventions."
+description: "Add OpenAPI docs and REST conventions to an existing Spring Boot 4 Maven project — SpringDoc, API versioning, ProblemDetail error schemas, DTO conventions. Use when asked to add OpenAPI or Swagger, document or version an API, or define REST conventions. Not for auth — use spring-security."
 ---
 
 # API Design Skill

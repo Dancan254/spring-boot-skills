@@ -1,6 +1,6 @@
 ---
 name: kafka-setup
-description: "Add Apache Kafka producers and consumers to an existing Spring Boot 4 project — Spring Kafka config, JSON serialization, dead-letter topic handling, Testcontainers Kafka tests, and docker-compose service wiring. Use when asked to add Kafka, event-driven architecture, event producer/consumer, message broker, or async messaging."
+description: "Add Apache Kafka producers and consumers to an existing Spring Boot 4 Maven project — Spring Kafka config, JSON events, dead-letter topics, Testcontainers tests, compose wiring. Use when asked to add Kafka, Kafka topics, or event streaming. If messaging is requested without naming a broker, ask Kafka or RabbitMQ first."
 ---
 
 # Kafka Setup Skill
@@ -17,6 +17,8 @@ Kafka class.
 ---
 
 ## Step 0 — Gather inputs
+
+If the user asked for messaging without naming a broker, ask Kafka or RabbitMQ before going further.
 
 | Field | Required | Notes |
 |-------|----------|-------|

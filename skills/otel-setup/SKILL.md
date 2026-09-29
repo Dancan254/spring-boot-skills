@@ -1,6 +1,6 @@
 ---
 name: otel-setup
-description: "Wire OpenTelemetry into an existing Spring Boot 4 project end to end — the spring-boot-starter-opentelemetry dependency, the three OTLP export paths, the Logback appender Boot does not ship (so log export stops being a silent no-op), a local Grafana LGTM backend, and a verification runbook that proves traces, metrics, and logs actually arrive. Use when asked to add observability, set up OpenTelemetry, export logs/traces/metrics via OTLP, wire Grafana LGTM or Tempo or Loki, fix 'my traces show up but my logs do not', or 'is my telemetry actually working'."
+description: "Wire OpenTelemetry end to end into an existing Spring Boot 4 Maven project — OTLP export for traces, metrics, and logs, the Logback appender Boot doesn't ship, a local Grafana LGTM backend, and a runbook proving all three signals land. Use when asked to add observability or OpenTelemetry, or when logs never reach the backend."
 ---
 
 # OpenTelemetry Setup Skill

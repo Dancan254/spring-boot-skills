@@ -28,6 +28,9 @@ and observability, plus AI engineering with Spring AI. Every skill is a plain `S
 | `mcp-server` | Expose a Spring Boot service as an MCP server — streamable HTTP transport, use-case-shaped `@McpTool` tools with description/validation/error discipline, honest read-only/destructive hints, endpoint security, and verification with a real MCP client. |
 | `legacy-migration` | Migrate Spring Boot 2.x/3.x apps to Boot 4.x — audit-first, OpenRewrite-led, one green build per hop (2.7 → 3.5 Jakarta jump → 4.0 Jackson 3 + modular starters → 4.1), with a symptom table for the changes that compile but break at runtime. |
 
+**Build tool:** the skills target Maven projects (`pom.xml`, `./mvnw`). `spring-testing` and
+`legacy-migration` also handle Gradle; the rest do not yet.
+
 ---
 
 ## Install

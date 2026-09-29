@@ -1,6 +1,6 @@
 ---
 name: security-hardening
-description: "Add DevSecOps hardening to an existing project — OWASP dependency check, secrets scanning, container image scanning, SBOM generation, and a security-focused GitHub Actions workflow. Use when asked to harden security, scan dependencies, add SBOM, scan Docker images, or set up security CI."
+description: "Add DevSecOps checks to an existing Maven project — OWASP dependency check, secrets scanning, container image scanning, SBOM, and a security GitHub Actions workflow. Use when asked to harden a project, scan dependencies or images, add an SBOM, or set up security CI. Not for app authentication — use spring-security."
 ---
 
 # Security Hardening Skill

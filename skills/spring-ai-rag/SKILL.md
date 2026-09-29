@@ -1,6 +1,6 @@
 ---
 name: spring-ai-rag
-description: "Add a production-grade RAG (retrieval-augmented generation) pipeline to an existing Spring Boot 4 project using Spring AI — PgVector as the vector store, Ollama or OpenAI embeddings, Tika document ingestion with token-aware chunking, a retrieval advisor with a similarity floor, smoke evaluation, Testcontainers pgvector tests, and docker-compose wiring. Use when asked to add RAG, add AI search, chat with my documents, add embeddings, add vector or semantic search, or set up Spring AI."
+description: "Add a RAG pipeline to an existing Spring Boot 4 Maven project with Spring AI — PgVector store, Ollama or OpenAI embeddings, document ingestion and chunking, a retrieval advisor, and tests proving answers are grounded. Use when asked to add RAG, semantic or vector search, embeddings, or chat with my documents. Not for MCP — use mcp-server."
 ---
 
 # Spring AI RAG Skill
