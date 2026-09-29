@@ -91,12 +91,12 @@ that is a bug to fix on sight.
 | Service | Image | Container class | `@ServiceConnection` |
 |---|---|---|---|
 | PostgreSQL | `postgres:18-alpine` | `org.testcontainers.postgresql.PostgreSQLContainer` | automatic |
-| Redis | `redis:8.8.3-alpine` | `org.testcontainers.containers.GenericContainer` (no Redis module exists) | matched by image name; add `name = "redis"` if pulled from a mirror |
+| Redis | `redis:8.10.2-alpine` | `org.testcontainers.containers.GenericContainer` (no Redis module exists) | matched by image name; add `name = "redis"` if pulled from a mirror |
 | Kafka | `apache/kafka:4.3.1` | `org.testcontainers.kafka.KafkaContainer` | automatic |
 | RabbitMQ | `rabbitmq:4-management-alpine` | `org.testcontainers.rabbitmq.RabbitMQContainer` | automatic |
 | MongoDB | `mongo:8` | `org.testcontainers.mongodb.MongoDBContainer` | automatic |
 | LocalStack (S3, SQS…) | `localstack/localstack:4` | `org.testcontainers.localstack.LocalStackContainer` | automatic |
-| Grafana LGTM | `grafana/otel-lgtm:0.33.1` | `org.testcontainers.grafana.LgtmStackContainer` | automatic (metrics + traces + logs) |
+| Grafana LGTM | `grafana/otel-lgtm:0.34.0` | `org.testcontainers.grafana.LgtmStackContainer` | automatic (metrics + traces + logs) |
 
 Boot 4.1 ships the matching connection-details factories in the feature module, not in
 `spring-boot-testcontainers` — `spring-boot-data-redis` carries `RedisContainerConnectionDetailsFactory`,
@@ -124,7 +124,7 @@ path and Boot matches it on image name:
 @Container
 @ServiceConnection
 static GenericContainer redis =
-    new GenericContainer(DockerImageName.parse("redis:8.8.3-alpine")).withExposedPorts(6379);
+    new GenericContainer(DockerImageName.parse("redis:8.10.2-alpine")).withExposedPorts(6379);
 ```
 
 **Kafka** — `KafkaContainer` is the KRaft `apache/kafka` image; `ConfluentKafkaContainer` is the

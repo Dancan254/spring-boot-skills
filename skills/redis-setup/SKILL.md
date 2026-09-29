@@ -278,7 +278,7 @@ If `BaseIntegrationTest` exists (from `spring-scaffold` or `spring-testing`), cr
 public abstract class BaseRedisIntegrationTest extends BaseIntegrationTest {
 
     static RedisContainer redis =
-        new RedisContainer(DockerImageName.parse("redis:8.8.3-alpine"));
+        new RedisContainer(DockerImageName.parse("redis:8.10.2-alpine"));
 
     static {
         redis.start();
@@ -293,10 +293,10 @@ public abstract class BaseRedisIntegrationTest extends BaseIntegrationTest {
 ```
 
 `RedisContainer` is `com.redis.testcontainers.RedisContainer` from the Step 2 dependency. Before
-writing, confirm `8.8.3-alpine` still exists:
+writing, confirm `8.10.2-alpine` still exists:
 
 ```bash
-curl -s "https://hub.docker.com/v2/repositories/library/redis/tags/8.8.3-alpine" \
+curl -s "https://hub.docker.com/v2/repositories/library/redis/tags/8.10.2-alpine" \
   | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['name'], d['last_updated'][:10])"
 ```
 
@@ -344,7 +344,7 @@ If `docker-compose.yml` exists, add a Redis service:
 
 ```yaml
 redis:
-  image: redis:8.8.3-alpine   # pinned; never :latest
+  image: redis:8.10.2-alpine   # pinned; never :latest
   ports:
     - "6379:6379"
   command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
@@ -380,8 +380,8 @@ Serialization ......... ✅ GenericJacksonJsonRedisSerializer (Jackson 3, typed)
 TTLs .................. ✅ default 30m + per-cache overrides
 Failure mode .......... ✅ CacheErrorHandler logs and proceeds
 Rate limiting ......... ✅ Bucket4j 8.20.0 via Lettuce — 429 boundary tested
-Testcontainers ........ ✅ RedisContainer redis:8.8.3-alpine
-Compose ............... ✅ redis:8.8.3-alpine, allkeys-lru, healthcheck
+Testcontainers ........ ✅ RedisContainer redis:8.10.2-alpine
+Compose ............... ✅ redis:8.10.2-alpine, allkeys-lru, healthcheck
 Cache proof ........... ✅ repository hit once for two service calls
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

@@ -2,6 +2,18 @@
 
 All notable changes to this skill pack. Versions match the `version` field in every plugin manifest.
 
+## [Unreleased]
+
+### Changed
+- Pins refreshed: `grafana/otel-lgtm` 0.34.0, `redis` 8.10.2-alpine, `ollama/ollama` 0.35.0,
+  `github/codeql-action` v4.
+- The skill lint also checks each image's Docker Hub verification command and the "confirm `<tag>`"
+  line before it.
+
+### Fixed
+- `security-hardening` referenced `aquasecurity/trivy-action@0.36.0`, a tag that does not exist; it is
+  `v0.36.0`.
+
 ## [1.1.0] - 2026-09-29
 
 ### Added

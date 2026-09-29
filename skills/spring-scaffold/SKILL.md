@@ -285,7 +285,7 @@ metrics, traces, **and** logs at the container's mapped OTLP port. Do not set an
 `management.*.otlp.*` endpoint property in a dev profile — the service connection wins and hardcoding
 one breaks it.
 
-Before writing the file, confirm `0.33.1` is still the newest `grafana/otel-lgtm` tag:
+Before writing the file, confirm `0.34.0` is still the newest `grafana/otel-lgtm` tag:
 
 ```bash
 curl -s "https://hub.docker.com/v2/repositories/grafana/otel-lgtm/tags?page_size=5&ordering=last_updated" \

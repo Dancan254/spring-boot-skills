@@ -51,8 +51,8 @@ PIN_PATTERNS = {
     "rewrite-maven-plugin": [r"rewrite-maven-plugin[: ](\d+\.\d+\.\d+)"],
     "image postgres": [r"(?<![\w/.])postgres:" + TAG],
     "image pgvector/pgvector": [r"pgvector/pgvector:" + TAG],
-    "image grafana/otel-lgtm": [r"grafana/otel-lgtm:" + TAG, r"confirm `" + TAG + r"` is still the newest `grafana/otel-lgtm`"],
-    "image apache/kafka": [r"apache/kafka:" + TAG, r"confirm `" + TAG + r"` is still current:\s*```bash\s*curl -s \"https://hub\.docker\.com/v2/repositories/apache/kafka"],
+    "image grafana/otel-lgtm": [r"grafana/otel-lgtm:" + TAG],
+    "image apache/kafka": [r"apache/kafka:" + TAG],
     "image rabbitmq": [r"(?<![\w/.])rabbitmq:" + TAG],
     "image redis": [r"(?<![\w/.])redis:" + TAG],
     "image ollama/ollama": [r"ollama/ollama:" + TAG],
@@ -63,6 +63,14 @@ PIN_PATTERNS = {
     "action aquasecurity/trivy-action": [r"aquasecurity/trivy-action@" + TAG],
     "action github/codeql-action": [r"github/codeql-action/[\w-]+@(v\d+)"],
 }
+
+# Every image pin also appears in its Docker Hub check command and the "confirm `<tag>`" line before it.
+for pin, patterns in PIN_PATTERNS.items():
+    if pin.startswith("image "):
+        repo = pin.removeprefix("image ")
+        hub = re.escape(repo if "/" in repo else f"library/{repo}")
+        patterns.append(r"repositories/" + hub + r"/tags/" + TAG)
+        patterns.append(r"confirm `" + TAG + r"`[^\n]*:\s*```bash\s*curl -s \"https://hub\.docker\.com/v2/repositories/" + hub + "/")
 
 errors = []
 
