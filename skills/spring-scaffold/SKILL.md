@@ -117,7 +117,7 @@ container, wired up in Step 4b.
 Every Testcontainers module carries a `testcontainers-` prefix since 2.0. The old unprefixed
 coordinates still resolve — they just stop at 1.21.4 forever, which is how a project ends up silently
 a major version behind. Boot 4.1's BOM pins Testcontainers **2.0.5**; never override
-`testcontainers.version` by hand. The `spring-testing` skill's `references/containers.md` holds the
+`testcontainers.version` by hand. The `spring-testing` skill's `SKILL_DIR/../spring-testing/references/containers.md` holds the
 full 1.x → 2.x coordinate map and the commands that verify it.
 
 ---

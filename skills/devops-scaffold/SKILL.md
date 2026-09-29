@@ -139,7 +139,7 @@ Redis:
 
 ```yaml
 redis:
-  image: redis:8-alpine
+  image: redis:8.8.3-alpine
   ports:
     - "6379:6379"
   healthcheck:

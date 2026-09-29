@@ -1,0 +1,32 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Lint skills, pins, and manifests
+        run: python3 scripts/lint-skills.py
+
+  claude-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code@2.1.284
+      # no --strict: the contributor CLAUDE.md at the plugin root is an expected warning
+      - name: Validate plugin and marketplace
+        run: claude plugin validate .

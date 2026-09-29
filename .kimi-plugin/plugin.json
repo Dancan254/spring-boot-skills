@@ -1,8 +1,8 @@
 {
   "$schema": "https://kimi.com/schemas/kimi.plugin.schema.json",
   "name": "spring-boot-skills",
-  "version": "1.0.0",
-  "description": "Kimi Code CLI skills for Spring Boot 4 / Java backend and AI engineering: scaffold, persistence, caching, messaging, security, DevOps, testing, observability, Spring AI RAG, MCP servers, and legacy migration.",
+  "version": "1.1.0",
+  "description": "Spring Boot 4 skills: scaffold, JPA, Redis, Kafka/RabbitMQ, security, DevOps, testing, OTel, Spring AI RAG, MCP servers, and legacy migration.",
   "keywords": [
     "spring-boot",
     "java",

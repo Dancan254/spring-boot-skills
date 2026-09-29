@@ -2,9 +2,12 @@
 
 All notable changes to this skill pack. Versions match the `version` field in every plugin manifest.
 
-## [Unreleased]
+## [1.1.0] - 2026-09-29
 
 ### Added
+- `VERSIONS.md` as the single source of truth for every pin, and `scripts/lint-skills.py`, which
+  fails when a skill disagrees with it or breaks frontmatter, reference, size, or neutrality rules.
+- `Lint` GitHub Actions workflow: skill lint plus `claude plugin validate`.
 - Claude Code plugin and marketplace manifests (`.claude-plugin/`).
 - Portable Agent Plugins manifest (`plugin.json`) for Codex.
 - `CLAUDE.md` importing `AGENTS.md` for contributors using Claude Code.
@@ -21,6 +24,11 @@ All notable changes to this skill pack. Versions match the `version` field in ev
 - `spring-scaffold` defaults `outputDir` to `./<name>` in the current directory, states its
   Lombok/PostgreSQL/OTel defaults up front, and accepts `lombok: false` and `otel: false`.
 - `devops-scaffold` CI cancels superseded runs (`concurrency`), carried over from the scaffold's copy.
+
+### Fixed
+- Redis image pinned to `8.8.3-alpine` everywhere; `devops-scaffold` and `spring-testing` floated on
+  `8-alpine`.
+- All three manifests share one description.
 
 ### Removed
 - `article` skill. The pack is engineering-only.
