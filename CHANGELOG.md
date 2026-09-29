@@ -2,14 +2,13 @@
 
 All notable changes to this skill pack. Versions match the `version` field in every plugin manifest.
 
-## [Unreleased]
+## [1.2.0] - 2026-09-29
 
 ### Changed
 - Pins refreshed: `grafana/otel-lgtm` 0.34.0, `redis` 8.10.2-alpine, `ollama/ollama` 0.35.0,
   `github/codeql-action` v4.
 - The skill lint also checks each image's Docker Hub verification command and the "confirm `<tag>`"
   line before it.
-
 - `spring-testing` emulates AWS with Floci (`floci/floci:2.1.0`, `io.floci:*testcontainers-floci`
   2.16.1, with `@ServiceConnection` for Spring Cloud AWS) instead of LocalStack, which now needs an auth
   token on every run.
