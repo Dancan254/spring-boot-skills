@@ -21,6 +21,10 @@ install instructions.
 - Every `SKILL.md` must start with YAML frontmatter containing `name:` and `description:`.
 - The `description:` is the trigger phrase. It should be specific enough to match the right intent but broad enough to catch natural language variants.
 - `SKILL_DIR` = the directory containing the `SKILL.md`. Skills should load `SKILL_DIR/references/<file>.md` when they need extra context.
+- Keep each `SKILL.md` under ~500 lines. Fixed file content goes in `SKILL_DIR/assets/templates/`; the
+  `SKILL.md` keeps the steps and the reasoning.
+- Don't duplicate another skill's step. Hand off instead ("apply Step 3 of `otel-setup`") so each
+  pin and template has one owner.
 - Generated code and config should have minimal comments — only `WHY`, never `WHAT`.
 - Every generated artifact must include a concrete next step for the user.
 - Pins (versions, image tags, action tags) are current defaults; each skill must include the verification command so the agent can re-check before writing.
@@ -43,6 +47,8 @@ install instructions.
 ## Files to protect
 
 - `skills/*/references/*.md` are loaded by the skill at runtime. Do not delete or rename them without updating the loading instruction in the parent `SKILL.md`.
+- `skills/*/assets/templates/**` are copied into generated projects. Same rule: renaming one means updating
+  the `SKILL.md` step that names it.
 - `README.md` is the human-facing front door; keep it in sync with the skill list.
 - Keep `name`, `version`, and `description` in sync across `.claude-plugin/plugin.json`,
   `plugin.json`, and `.kimi-plugin/plugin.json`, and log every release in `CHANGELOG.md`.
