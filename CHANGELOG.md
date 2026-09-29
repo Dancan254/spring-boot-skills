@@ -2,6 +2,13 @@
 
 All notable changes to this skill pack. Versions match the `version` field in every plugin manifest.
 
+## [Unreleased]
+
+### Added
+- `evals/` routing suite for `claude plugin eval`: 14 skill-fires cases (with not-the-neighbour
+  graders where skills overlap), a Kafka-or-RabbitMQ ambiguity case, and 3 negative cases.
+- The skill lint fails when a skill has no eval case expecting it to fire.
+
 ## [1.2.0] - 2026-09-29
 
 ### Changed

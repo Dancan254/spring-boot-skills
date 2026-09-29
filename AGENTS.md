@@ -39,6 +39,10 @@ install instructions.
 - Preserve the source attribution in spirit but do not copy `@your_javaguy` brand references. Use neutral, direct language.
 - Update `references/` files when the corresponding `SKILL.md` changes so they stay consistent.
 - If you add a new skill, add it to `README.md` and update this `AGENTS.md`.
+- Every skill needs at least one `evals/<case>/` whose `skill-fired` grader expects it; the lint fails
+  otherwise. When two skills could claim the same request, add a `not-<skill>` grader (`min: 0`,
+  `max: 0`, `arm: both`). After changing a `description:`, re-run that skill's cases with
+  `claude plugin eval . --case <case> --ablation none`.
 
 ## Brand voice
 
