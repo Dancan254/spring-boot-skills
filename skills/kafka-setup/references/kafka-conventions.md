@@ -99,8 +99,11 @@ Testcontainers 2.x uses `org.testcontainers.kafka.KafkaContainer` from
 a deprecated shim.
 
 ```java
-static KafkaContainer kafka =
-    new KafkaContainer(DockerImageName.parse("apache/kafka:4.3.1"));
+@Bean
+@ServiceConnection
+KafkaContainer kafkaContainer() {
+    return new KafkaContainer(DockerImageName.parse("apache/kafka:4.3.1"));
+}
 ```
 
-Call `kafka.getBootstrapServers()` to wire `spring.kafka.bootstrap-servers`.
+Declared in `IntegrationTestContainers`; `@ServiceConnection` wires `spring.kafka.bootstrap-servers`.

@@ -246,32 +246,25 @@ Replace `<package>` with the project's base package.
 
 ## Step 8 — Testcontainers base test
 
-If `BaseIntegrationTest` exists, add a Kafka container. Create a new
-`BaseKafkaIntegrationTest` or extend the existing base class:
+If `BaseIntegrationTest` exists, add a Kafka bean to the `IntegrationTestContainers` configuration it
+imports:
 
 ```java
-package <package>;
-
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.kafka.KafkaContainer;
-import org.testcontainers.utility.DockerImageName;
-
-public abstract class BaseKafkaIntegrationTest extends BaseIntegrationTest {
-
-    static KafkaContainer kafka =
-        new KafkaContainer(DockerImageName.parse("apache/kafka:4.3.1"));
-
-    static {
-        kafka.start();
-    }
-
-    @DynamicPropertySource
-    static void kafkaProps(DynamicPropertyRegistry registry) {
-        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
-    }
+@Bean
+@ServiceConnection
+KafkaContainer kafkaContainer() {
+    return new KafkaContainer(DockerImageName.parse("apache/kafka:4.3.1"));
 }
 ```
+
+`KafkaContainer` is `org.testcontainers.kafka.KafkaContainer`; Boot's
+`ApacheKafkaContainerConnectionDetailsFactory` sets `spring.kafka.bootstrap-servers`.
+
+Tests extend `BaseIntegrationTest` as before — no separate base class, no
+`@DynamicPropertySource`, and no `static {}` start. If the project's base class still declares a
+`static @Container`, move that container into `IntegrationTestContainers` first (see
+`spring-testing` Step 3): the JUnit extension stops it after the first test class while Spring keeps
+the cached context.
 
 Before writing, confirm `4.3.1` is still current:
 
@@ -291,7 +284,7 @@ Create `src/test/java/<package>/job/JobEventConsumerIntegrationTest.java`:
 ```java
 package <package>.job;
 
-import <package>.BaseKafkaIntegrationTest;
+import <package>.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -301,7 +294,7 @@ import java.time.Instant;
 
 import static org.awaitility.Awaitility.await;
 
-class JobEventConsumerIntegrationTest extends BaseKafkaIntegrationTest {
+class JobEventConsumerIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;

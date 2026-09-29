@@ -42,7 +42,7 @@ replacements in `conventions.md` do not exist on 3.x.
 
 ## Step 1 — Audit before writing
 
-Run all four. Each hit is a finding to report, and the first two are the difference between a suite
+Run all five. Each hit is a finding to report, and the first two are the difference between a suite
 that is on Testcontainers 2.x and one that only looks like it.
 
 ```bash
@@ -59,6 +59,9 @@ grep -rn --include=*.java -e '@MockBean' -e '@SpyBean' -e 'boot.test.web.client.
 
 # 4. unpinned or floating images
 grep -rn --include=*.java -e ':latest' -e 'DockerImageName.parse("[a-z/]*")' src/test/java || true
+
+# 5. JUnit-managed containers in a shared base class (breaks once a second class reuses the context)
+grep -rln --include=*.java '@Container' src/test/java | xargs -r grep -l 'abstract class' || true
 ```
 
 Then confirm the resolved Testcontainers version against the BOM using the commands in
@@ -85,15 +88,22 @@ State which kind you're writing and why in one line, then write it.
 
 ## Step 3 — Ensure a base class exists
 
-Every integration test extends one class holding one static container. If the project has none,
-create it next to the application class in `src/test/java`:
+Every integration test extends one base class that imports one container configuration. If the
+project has none, create both next to the application class in `src/test/java`:
 
 ```java
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
+@TestConfiguration(proxyBeanMethods = false)
+public class IntegrationTestContainers {
 
+    @Bean
+    @ServiceConnection
+    PostgreSQLContainer postgresContainer() {
+        return new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
+    }
+}
+```
+
+```java
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     properties = {
@@ -101,26 +111,26 @@ import org.testcontainers.utility.DockerImageName;
         "management.tracing.export.enabled=false",
         "management.logging.export.otlp.enabled=false"
     })
-@Testcontainers
+@Import(IntegrationTestContainers.class)
 public abstract class BaseIntegrationTest {
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer postgres =
-        new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
 }
 ```
 
-`@Testcontainers` is the JUnit 5 extension that starts the static `@Container`; `@ServiceConnection`
-only wires connection details and starts nothing. Both are required.
+**Containers are Spring beans, never `static @Container` fields in a shared base class.** The JUnit
+`@Testcontainers` extension stops a static `@Container` after each test class, while Spring caches
+the application context across classes — the next class reuses a context pointing at a stopped
+container and fails with `Connection refused`. As a `@Bean`, the container lives exactly as long as
+the cached context. A base class that already declares a `static @Container` (audit check 5) is a
+latent failure: report it, and move the container into `IntegrationTestContainers` before adding a
+second integration test class — that is the moment it breaks.
 
 The `properties` disable OTLP export so tests don't warn against a collector that isn't running.
 Telemetry is exercised in dev via `./mvnw spring-boot:test-run`, not in the test suite — the Grafana
-LGTM container never belongs in the base class.
+LGTM container never belongs in `IntegrationTestContainers`.
 
-For any other backing service, take the class, artifact, and pinned tag from
-`references/containers.md`. One base class per project; a second container declared in a subclass
-starts a second database.
+For any other backing service, add a `@Bean @ServiceConnection` method to `IntegrationTestContainers`
+with the class, artifact, and pinned tag from `references/containers.md`. One configuration per
+project; every distinct set of imports is a separate cached context and a separate set of containers.
 
 ---
 

@@ -18,6 +18,14 @@ All notable changes to this skill pack. Versions match the `version` field in ev
   instead of a `GenericContainer` that `@ServiceConnection` only matched by image name.
 
 ### Fixed
+- Integration-test containers are Spring beans (`@TestConfiguration` + `@Bean @ServiceConnection` in
+  `IntegrationTestContainers`, imported by `BaseIntegrationTest`) instead of `@Testcontainers` +
+  `static @Container` in the shared base class. The JUnit extension stopped the container after the
+  first test class while Spring kept the cached context, so the second class failed with
+  `Connection refused` — reproduced on Boot 4.1.1. Applies to `spring-scaffold`, `spring-testing`,
+  `spring-data-jpa`, `spring-ai-rag`, `redis-setup`, `kafka-setup`, and `rabbitmq-setup`; the three
+  messaging skills drop their own base classes and `@DynamicPropertySource` wiring.
+- `spring-testing` audits for `@Container` in shared base classes.
 - `security-hardening` referenced `aquasecurity/trivy-action@0.36.0`, a tag that does not exist; it is
   `v0.36.0`.
 

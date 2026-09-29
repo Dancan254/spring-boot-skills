@@ -109,13 +109,14 @@ starter (or that module) is missing, not the container.
 
 ## Snippets
 
-**Postgres — the default, in `BaseIntegrationTest`:**
+**Postgres — the default, in `IntegrationTestContainers`:**
 
 ```java
-@Container
+@Bean
 @ServiceConnection
-static PostgreSQLContainer postgres =
-    new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
+PostgreSQLContainer postgresContainer() {
+    return new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
+}
 ```
 
 **Redis** — Testcontainers 2.x has no official Redis module; use Redis's own
@@ -134,20 +135,22 @@ This is the same container `redis-setup` uses.
 ```
 
 ```java
-@Container
+@Bean
 @ServiceConnection
-static RedisContainer redis =
-    new RedisContainer(DockerImageName.parse("redis:8.10.2-alpine"));
+RedisContainer redisContainer() {
+    return new RedisContainer(DockerImageName.parse("redis:8.10.2-alpine"));
+}
 ```
 
 **Kafka** — `KafkaContainer` is the KRaft `apache/kafka` image; `ConfluentKafkaContainer` is the
 `confluentinc/cp-kafka` one. Use Apache unless the project already depends on Confluent tooling:
 
 ```java
-@Container
+@Bean
 @ServiceConnection
-static KafkaContainer kafka =
-    new KafkaContainer(DockerImageName.parse("apache/kafka:4.3.1"));
+KafkaContainer kafkaContainer() {
+    return new KafkaContainer(DockerImageName.parse("apache/kafka:4.3.1"));
+}
 ```
 
 **AWS (S3, SQS, SNS, DynamoDB…)** — use Floci, not LocalStack. LocalStack retired its Community image
@@ -171,16 +174,17 @@ Boot's BOM, so pin both to the same release:
 ```
 
 ```java
-@Container
+@Bean
 @ServiceConnection
-static FlociContainer floci =
-    new FlociContainer(DockerImageName.parse("floci/floci:2.1.0"));
+FlociContainer flociContainer() {
+    return new FlociContainer(DockerImageName.parse("floci/floci:2.1.0"));
+}
 ```
 
 `@ServiceConnection` sets endpoint, region, and credentials on Spring Cloud AWS clients (`S3Client`,
 `SqsAsyncClient`, …). Never use the no-arg constructor — it silently pulls the `latest` tag. If the
 project builds raw AWS SDK clients instead of Spring Cloud AWS, drop the Spring module and point the
-client at `floci.getEndpoint()` / `getRegion()` / `getAccessKey()` / `getSecretKey()` with
+client at the injected `FlociContainer` bean's `getEndpoint()` / `getRegion()` / `getAccessKey()` / `getSecretKey()` with
 `forcePathStyle(true)` for S3.
 
 Keep LocalStack only when a project already depends on it or needs emulation Floci stubs (Textract,
@@ -202,11 +206,15 @@ in `BaseIntegrationTest` — integration tests assert behaviour, not telemetry, 
 
 ## Startup cost
 
-One static container per class, shared across its methods — that is what `@Testcontainers` +
-`static @Container` buys. Two rules keep the suite fast:
+Every snippet above is a `@Bean @ServiceConnection` method in `IntegrationTestContainers`, imported
+by `BaseIntegrationTest`. Spring starts each container with the application context and stops it
+when the cached context is closed, so every test class that shares the context shares the
+containers. Do not use `@Testcontainers` + `static @Container` in a shared base class: the JUnit
+extension stops the container after the first class while Spring keeps the cached context, and the
+next class fails with `Connection refused`. Rules that keep the suite fast:
 
-- **One base class, every integration test extends it.** A second container declaration in a
-  subclass starts a second database.
+- **One base class, one container configuration.** Every extra `@Import`, `@MockitoBean`, or property
+  difference creates another cached context with its own containers.
 - **Reuse across runs is opt-in and local only.** `.testcontainers.properties` with
   `testcontainers.reuse.enable=true` plus `.withReuse(true)` keeps the container alive between
   runs on your machine. Never commit `withReuse(true)` as the default — CI has no reuse daemon and
