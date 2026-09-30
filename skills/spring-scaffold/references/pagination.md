@@ -102,9 +102,9 @@ handler change is needed for it, or for any other exception you add to the hiera
 
 **Cursor type fidelity (the one gotcha):** the cursor encodes the keyset column values as JSON. Long
 ids and numbers round-trip cleanly. Temporal columns (`Instant`, `LocalDateTime`) are the sharp edge —
-`PageCursor` registers `JavaTimeModule` so they serialize as ISO strings, but confirm your keyset
-columns deserialize back to the type the query binds. When in doubt, key on `(epochMillis, id)` or
-`(id)` alone — both round-trip without coercion surprises.
+Jackson 3 serializes them out of the box (java.time support is built into databind 3, no module to
+register), but confirm your keyset columns deserialize back to the type the query binds. When in
+doubt, key on `(epochMillis, id)` or `(id)` alone — both round-trip without coercion surprises.
 
 ---
 
