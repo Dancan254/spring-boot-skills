@@ -7,7 +7,7 @@ A collection of agent skills for Spring Boot / Java backend engineering. Each sk
 
 Engineering skills: `spring-scaffold`, `spring-data-jpa`, `redis-setup`, `spring-security`,
 `api-design`, `spring-testing`, `devops-scaffold`, `otel-setup`, `kafka-setup`, `rabbitmq-setup`,
-`security-hardening`, `spring-ai-rag`, `mcp-server`, `legacy-migration`.
+`security-hardening`, `pentest-audit`, `spring-ai-rag`, `mcp-server`, `legacy-migration`.
 
 This is a meta-project: the deliverables are the skill files themselves, not a running application.
 

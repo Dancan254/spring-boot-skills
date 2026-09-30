@@ -24,6 +24,7 @@ and observability, plus AI engineering with Spring AI. Every skill is a plain `S
 | `kafka-setup` | Add Kafka producers/consumers — Spring Kafka config, JSON events, DLT handling, and Testcontainers tests. |
 | `rabbitmq-setup` | Add RabbitMQ producers/consumers — Spring AMQP config, JSON events, DLX handling, and Testcontainers tests. |
 | `security-hardening` | Add DevSecOps hardening — OWASP dependency check, secrets scanning, container scanning, and SBOM. |
+| `pentest-audit` | Pentest a running app — OWASP ZAP DAST scans (baseline + API), manual probes for auth/JWT/IDOR/CORS/actuator/headers, and a findings report with fixes. |
 | `spring-ai-rag` | Add a RAG pipeline with Spring AI — PgVector with Flyway-owned DDL and HNSW index, Tika ingestion with token-aware chunking, a retrieval advisor with a similarity floor, and an end-to-end proof that answers are grounded in ingested documents. |
 | `mcp-server` | Expose a Spring Boot service as an MCP server — streamable HTTP transport, use-case-shaped `@McpTool` tools with description/validation/error discipline, honest read-only/destructive hints, endpoint security, and verification with a real MCP client. |
 | `legacy-migration` | Migrate Spring Boot 2.x/3.x apps to Boot 4.x — audit-first, OpenRewrite-led, one green build per hop (2.7 → 3.5 Jakarta jump → 4.0 Jackson 3 + modular starters → 4.1), with a symptom table for the changes that compile but break at runtime. |
