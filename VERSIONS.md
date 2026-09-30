@@ -1,10 +1,10 @@
 # Pinned versions
 
 The single source of truth for every version, image tag, and action tag the skills write.
-`scripts/lint-skills.py` fails CI when any skill disagrees with this table.
+`scripts/LintSkills.java` fails CI when any skill disagrees with this table.
 
 **To bump a pin:** run the verification command in the owning skill, change the value here, run
-`python3 scripts/lint-skills.py`, and fix every file it lists. Log the bump in `CHANGELOG.md`.
+`java scripts/LintSkills.java`, and fix every file it lists. Log the bump in `CHANGELOG.md`.
 
 "Also allowed" lists values that legitimately appear in prose next to the pin, such as version floors
 or intermediate migration hops. They are not alternatives to the pin.

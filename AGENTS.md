@@ -29,8 +29,8 @@ install instructions.
 - Every generated artifact must include a concrete next step for the user.
 - Pins (versions, image tags, action tags) are current defaults; each skill must include the verification command so the agent can re-check before writing.
 - `VERSIONS.md` is the source of truth for every pin. Bump it there first, then fix whatever
-  `python3 scripts/lint-skills.py` flags. A new pin needs a `VERSIONS.md` row and a pattern in the script.
-- Run `python3 scripts/lint-skills.py` before every commit; CI runs it on every PR.
+  `java scripts/LintSkills.java` flags. A new pin needs a `VERSIONS.md` row and a pattern in the script.
+- Run `java scripts/LintSkills.java` (JDK 25+) before every commit; CI runs it on every PR.
 
 ## When editing these skills
 
@@ -43,7 +43,7 @@ install instructions.
   otherwise. When two skills could claim the same request, add a `not-<skill>` grader (`min: 0`,
   `max: 0`, `arm: both`). After changing a `description:`, re-run that skill's cases with
   `claude plugin eval . --case <case> --ablation none`. The suite also runs on other agent CLIs via
-  `python3 scripts/run-evals.py --tool kimi|codex` — keep graders to the `tool_used` and `regex`
+  `java scripts/RunEvals.java --tool kimi|codex` — keep graders to the `tool_used` and `regex`
   types so they stay portable.
 
 ## Brand voice

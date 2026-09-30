@@ -106,10 +106,12 @@ name.
 ├── plugin.json            # Portable Agent Plugins manifest (Codex)
 ├── AGENTS.md              # Contributor notes (CLAUDE.md imports it)
 ├── CHANGELOG.md
-├── VERSIONS.md            # Every pin, checked by scripts/lint-skills.py
+├── VERSIONS.md            # Every pin, checked by scripts/LintSkills.java
 ├── evals/                 # Routing suite for `claude plugin eval`
 ├── scripts/
-│   └── lint-skills.py
+│   ├── LintSkills.java    # run with `java scripts/LintSkills.java` (JDK 25+)
+│   ├── RunEvals.java      # cross-CLI eval runner, same launch style
+│   └── MiniJson.java      # shared minimal JSON parser (stdlib has none)
 ├── README.md
 └── skills/
     ├── spring-scaffold/
@@ -179,7 +181,7 @@ name.
 
 Every pin — Spring Boot, BOM-managed versions, container images, GitHub Actions — lives in
 [`VERSIONS.md`](VERSIONS.md). Each skill carries the command to re-verify its pins before writing, and
-`python3 scripts/lint-skills.py` (run in CI) fails when any skill disagrees with `VERSIONS.md`.
+`java scripts/LintSkills.java` (run in CI, JDK 25+) fails when any skill disagrees with `VERSIONS.md`.
 
 Do not override `testcontainers.version` or `opentelemetry.version` by hand — the Spring Boot BOM owns
 them. If a newer release exists, that is a Boot upgrade, not a property change.
@@ -199,12 +201,12 @@ claude plugin eval . --case add-kafka-consumer --runs 1 --ablation none   # one 
 ```
 
 `claude plugin eval --model <model>` covers other Claude models. To run the suite on other agent
-CLIs, use `scripts/run-evals.py`:
+CLIs, use `scripts/RunEvals.java` (JDK 25+):
 
 ```bash
-python3 scripts/run-evals.py --tool kimi --runs 3             # full suite on Kimi
-python3 scripts/run-evals.py --tool codex --case secure-api-with-jwt --runs 1
-python3 scripts/run-evals.py --tool claude --case 'add-*'     # thin wrapper over claude plugin eval
+java scripts/RunEvals.java --tool kimi --runs 3             # full suite on Kimi
+java scripts/RunEvals.java --tool codex --case secure-api-with-jwt --runs 1
+java scripts/RunEvals.java --tool claude --case 'add-*'     # thin wrapper over claude plugin eval
 ```
 
 The kimi/codex arms drive each CLI's headless mode, seed a minimal `pom.xml` in the scratch dir so

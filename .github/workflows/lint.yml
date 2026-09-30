@@ -15,8 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '25'
       - name: Lint skills, pins, and manifests
-        run: python3 scripts/lint-skills.py
+        run: java scripts/LintSkills.java
 
   claude-plugin:
     runs-on: ubuntu-latest
