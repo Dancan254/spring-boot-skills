@@ -33,6 +33,7 @@ or intermediate migration hops. They are not alternatives to the pin.
 | image floci/floci | 2.1.0 | | spring-testing |
 | image mongo | 8.3.11 | | spring-testing |
 | zap docker image | 2.17.0 | | pentest-audit |
+| resilience4j | 2.4.0 | | http-resilience |
 | action actions/checkout | v7 | | devops-scaffold |
 | action actions/setup-java | v6 | | devops-scaffold |
 | action actions/upload-artifact | v7 | | devops-scaffold |

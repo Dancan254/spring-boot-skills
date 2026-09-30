@@ -7,7 +7,8 @@ A collection of agent skills for Spring Boot / Java backend engineering. Each sk
 
 Engineering skills: `spring-scaffold`, `spring-data-jpa`, `redis-setup`, `spring-security`,
 `api-design`, `spring-testing`, `devops-scaffold`, `otel-setup`, `kafka-setup`, `rabbitmq-setup`,
-`security-hardening`, `pentest-audit`, `spring-ai-rag`, `mcp-server`, `legacy-migration`.
+`security-hardening`, `pentest-audit`, `spring-ai-rag`, `spring-ai-chat`, `mcp-server`,
+`legacy-migration`, `http-resilience`.
 
 This is a meta-project: the deliverables are the skill files themselves, not a running application.
 
@@ -44,7 +45,8 @@ install instructions.
   `max: 0`, `arm: both`). After changing a `description:`, re-run that skill's cases with
   `claude plugin eval . --case <case> --ablation none`. The suite also runs on other agent CLIs via
   `java scripts/RunEvals.java --tool kimi|codex` — keep graders to the `tool_used` and `regex`
-  types so they stay portable.
+  types so they stay portable. Routing evals only prove a skill fires; `java scripts/GoldenPath.java`
+  runs spring-scaffold end-to-end and compiles the generated project to prove the output works.
 
 ## Brand voice
 

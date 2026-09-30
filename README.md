@@ -19,6 +19,8 @@ and observability, plus AI engineering with Spring AI. Every skill is a plain `S
 | `otel-setup` | Wire OpenTelemetry end to end — OTLP export, the Logback appender Boot does not ship, a local Grafana LGTM backend, and a runbook that proves all three signals land. |
 | `spring-data-jpa` | Add JPA persistence — entities, repositories, auditing, Flyway migrations, and integration tests. |
 | `redis-setup` | Add Redis caching and rate limiting — Jackson 3 JSON serialization, per-cache TTLs, graceful cache failure, Bucket4j rate limiting, and a test that proves the cache intercepts calls. |
+| `http-resilience` | Add resilient outbound HTTP — RestClient with explicit timeouts, Resilience4j circuit breaker and retry, and a test that proves the circuit fails fast. |
+| `spring-ai-chat` | Add LLM chat with Spring AI — ChatClient with system prompting, structured output to records, `@Tool` tool calling, Ollama or OpenAI. |
 | `spring-security` | Add JWT resource-server security — config, claim mapping, method security, and tests. |
 | `api-design` | Add OpenAPI/SpringDoc docs, API versioning, and consistent `ProblemDetail` error schemas. |
 | `kafka-setup` | Add Kafka producers/consumers — Spring Kafka config, JSON events, DLT handling, and Testcontainers tests. |
@@ -55,7 +57,8 @@ Without the plugin, copy or symlink the skill folders into `~/.claude/skills/` (
 ### Codex
 
 Codex scans `.agents/skills/` in every directory from the working directory up to the repo root,
-and `~/.agents/skills/` for the user. Symlink each skill folder into the user directory:
+and `~/.agents/skills/` for the user ([official docs](https://developers.openai.com/codex/skills)).
+Symlink each skill folder into the user directory — Codex follows symlinked skill folders:
 
 ```bash
 cd /path/to/spring-boot-skills
@@ -64,6 +67,12 @@ for d in skills/*/; do
   ln -s "$PWD/$d" ~/.agents/skills/"$(basename "$d")"
 done
 ```
+
+Verify the install inside Codex: run `/skills` to list them, or invoke one explicitly with
+`$spring-scaffold`. Codex detects new skills automatically; restart if one doesn't appear.
+
+The root `plugin.json` is the portable Agent Plugins manifest — the route OpenAI recommends for
+distributing skills beyond a single machine.
 
 The repo root also carries a portable `plugin.json` (Agent Plugins 1.0.0 schema) for plugin-based
 distribution.
@@ -112,6 +121,7 @@ name.
 ├── scripts/
 │   ├── LintSkills.java    # run with `java scripts/LintSkills.java` (JDK 25+)
 │   ├── RunEvals.java      # cross-CLI eval runner, same launch style
+│   ├── GoldenPath.java    # runs spring-scaffold for real, then compiles the result
 │   └── MiniJson.java      # shared minimal JSON parser (stdlib has none)
 ├── README.md
 └── skills/
