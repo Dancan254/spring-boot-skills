@@ -77,6 +77,10 @@ public class LintSkills {
         PIN_PATTERNS.put("image ollama/ollama", List.of("ollama/ollama:" + TAG));
         PIN_PATTERNS.put("image floci/floci", List.of("floci/floci:" + TAG));
         PIN_PATTERNS.put("image mongo", List.of("(?<![\\w/.])mongo:" + TAG));
+        // GHCR, not Docker Hub — no "image " prefix, so no auto hub patterns; GH release is the source of truth.
+        PIN_PATTERNS.put("zap docker image", List.of(
+                "ghcr\\.io/zaproxy/zaproxy:(\\d+\\.\\d+\\.\\d+)",
+                "zaproxy/releases/tag/v(\\d+\\.\\d+\\.\\d+)"));
         PIN_PATTERNS.put("action actions/checkout", List.of("actions/checkout@(v\\d+)"));
         PIN_PATTERNS.put("action actions/setup-java", List.of("actions/setup-java@(v\\d+)"));
         PIN_PATTERNS.put("action actions/upload-artifact", List.of("actions/upload-artifact@(v\\d+)"));
