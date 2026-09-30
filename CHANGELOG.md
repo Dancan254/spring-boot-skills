@@ -4,10 +4,29 @@ All notable changes to this skill pack. Versions match the `version` field in ev
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-09-30
+
 ### Added
-- `evals/` routing suite for `claude plugin eval`: 14 skill-fires cases (with not-the-neighbour
-  graders where skills overlap), a Kafka-or-RabbitMQ ambiguity case, and 3 negative cases.
-- The skill lint fails when a skill has no eval case expecting it to fire.
+- `pentest-audit` skill: runtime pentest and security audit of a running app — OWASP ZAP DAST
+  (baseline and OpenAPI-driven API scan, `ghcr.io/zaproxy/zaproxy:2.17.0`), a 10-probe manual
+  checklist (headers, cookies, CORS, error leakage, actuator, JWT tampering, IDOR, method
+  tampering, rate limiting) with OWASP mapping and severity table, and a verdict-first report
+  template. `security-hardening` keeps build-time supply-chain scanning; `not-*` eval graders
+  enforce the boundary in both directions.
+- `evals/` routing suite for `claude plugin eval`: one skill-fires case per skill (with
+  not-the-neighbour graders where skills overlap), a Kafka-or-RabbitMQ ambiguity case, and 3
+  negative cases. The skill lint fails when a skill has no eval case expecting it to fire.
+- `scripts/RunEvals.java`: run the routing suite on other agent CLIs (Kimi, Codex) — headless
+  event-stream grading with the same `tool_used`/`regex` graders, no judge model.
+
+### Changed
+- Routing evals capped at 2 turns (was 3): the routing decision happens in the first turn, so the
+  suite is ~50% cheaper per run ($6.69 → ~$3.30) with no signal lost.
+- `scripts/lint-skills.py` and `scripts/run-evals.py` ported to Java 25 single-file source
+  programs (`java scripts/LintSkills.java`) with a shared minimal JSON parser; CI installs
+  Temurin 25 via `setup-java@v6`.
+- The pentest eval prompt says "audit … for security vulnerabilities" rather than "pentest" — the
+  literal word in a user turn trips Claude's cyber safeguards.
 
 ## [1.2.0] - 2026-09-29
 
